@@ -1,0 +1,41 @@
+\begin{circuitikz}
+    \draw
+    (1,0)
+    % BTUnotD
+    node[ieeestd and port, number inputs=3, anchor=in 1] (BTUnotD) {}
+    % T
+    (BTUnotD.in 1) -- ++(-1,0)
+    node[anchor=east] {T}
+    % GG
+    (BTUnotD.out) to[short] ++(0.5,0)
+    node[twoportshape, anchor=west, t=GG](GG){} ++(1,0)
+    % to D stop
+    -- ++(0.5,0)
+    to [short, *-] ++(0,-1.5)
+    -- ++(1,0)
+    node[ieeestd and port, anchor=in 1] (Dstop){}
+    (Dstop.out) node[anchor=west]{D stop};
+    % not D
+    \node at (BTUnotD.bin 3) [ocirc, left]{};
+    % GG to U stop
+    \draw
+    (GG.east)
+    to [short] ++(1.5,0)
+    node[ieeestd and port, anchor=in 1](Ustop){}
+    (Ustop.out) node[anchor=west]{U stop};
+    \draw
+    (BTUnotD.out) to[short, *-] ++(0,1)
+    to[short] ++(5.2,0)
+    node[anchor=west](start){start};
+    \draw
+    (BTUnotD.in 2) to[short] ++(-1,0)
+    node[anchor=east](U){U}
+    (BTUnotD.in 3) to[short] ++(-1,0)
+    node[anchor=east](D){D}
+    (0.5,-0.38) to [short, *-] ++(0,-1)
+    -- ++(1,0)
+    -| (Ustop.in 2)
+    (0.7, -0.75) to [short, *-] ++(0,-1.4)
+    |- (Dstop.in 2)
+    ;
+\end{circuitikz}

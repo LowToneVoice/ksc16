@@ -1,23 +1,17 @@
-\documentclass[]{jsreport}
-\usepackage[]{amsmath,amssymb}
-\usepackage{bm}
-\usepackage{booktabs}
-\usepackage{circuitikz}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{listings}
-\usepackage{lscape}
-\usepackage{mathrsfs}
-\usepackage{mathtools}
-\usepackage{physics}
-\usepackage{pxjahyper}
-\usepackage{subcaption}
-\usepackage{tikz}
-\usepackage{url}
-
+\documentclass[dvipdfmx]{jsarticle}
+\usepackage{amsmath,amssymb}
 
 \begin{document}
 
-\input{introduction.tex}
+\title{ksc16演習詳細}
+\author{参加学生有志}
+\date{\today}
+\begin{titlepage}
+    \maketitle
+\end{titlepage}
+
+\input{sections/introduction.tex}
+\includepdf[pages=-, pagecommand={\thispagestyle{plain}}]{test1.pdf}
+\includepdf[pages=-, pagecommand={\thispagestyle{plain}}]{test2.pdf}
 
 \end{document}
