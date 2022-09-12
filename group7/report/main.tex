@@ -1,16 +1,53 @@
-\documentclass[]{jsarticle}
-\usepackage[]{amsmath,amssymb}
-\usepackage[]{physics}
+\documentclass[dvipdfmx]{jsarticle}
+\usepackage{amsmath,amssymb}
 \usepackage[dvipdfmx]{graphicx}
+\usepackage{physics}
+% calligraphy
+\usepackage{bm}
 \usepackage{mathrsfs}
+% hyperlink
+\usepackage{hyperref}
+\usepackage{pxjahyper}
+% displaying codes
+\usepackage{listings}
+% page rotation
 \usepackage{lscape}
+% subcaption of fig.
+\usepackage{subcaption}
+% tikz
 \usepackage{tikz}
 \usepackage{circuitikz}
-
 \usetikzlibrary{intersections,calc,arrows.meta}
 \usetikzlibrary{circuits.logic.US}
 \usetikzlibrary{positioning, fit}
 
 \begin{document}
-\input{../img/circuit.tex}
+\begin{figure}
+    \centering
+    \begin{tabular}[]{cc}
+        \begin{minipage}[t]{0.3\hsize}
+            \input{../img/models/pass-through.tex}
+            \subcaption{試料を通過する場合}
+        \end{minipage}
+        &
+        \begin{minipage}[t]{0.3\hsize}
+            \input{../img/models/decay-intoD.tex}
+            \subcaption{崩壊してDに(陽)電子を飛ばす場合}
+        \end{minipage}
+    \end{tabular}
+    \caption{PSc+PMTの配置と粒子の飛程}
+\end{figure}
+\begin{figure}
+    \centering
+    \input{../img/circuits/circiut-easy.tex}
+    \caption{回路の概要}
+    \label{img: circuit easy}
+\end{figure}
+\begin{landscape}
+    \begin{figure}
+        \centering
+        \input{../img/circuits/circuit.tex}
+        \caption{実験で用いた論理回路}
+    \end{figure}
+\end{landscape}
 \end{document}
