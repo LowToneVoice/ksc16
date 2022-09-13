@@ -56,13 +56,13 @@
         (BUstop.out) node[anchor=west]{$\mathrm{CaCO_3}$ U stop}
         % D stop
         (15,-1.8) node[ieeestd and port, anchor=center, number inputs=3](BDstop){}
-        (BDstop.out) node[anchor=west]{$\mathrm{CaCO_3}$ D stop}
+        (BDstop.out) node[anchor=west](BDstopLabel){$\mathrm{CaCO_3}$ D stop}
         (BUstoplocal.out) -- (BUstop.in 3)
         (BDstoplocal.out) -- (BDstop.in 3)
         ;
         % box
         \node[rectangle,draw,dashed,fit=(BT) (BDstoplocal) (BDstoplocal)](CaCO3){};
-        \node[anchor=north, align=center] at (CaCO3.south){$\mathrm{CaCO_3}$};
+        \node[anchor=north, align=center] at (CaCO3.south){$\mathrm{CaCO_3\:INPUTS}$};
     % A
     \draw
         % T
@@ -125,12 +125,12 @@
         -| ++(2,3.2)
         to [short] ++(1,0)
         -| (ADstop.in 1)
-        (AUstop.out) node[anchor=west]{Cu, Al U stop}
+        (AUstop.out) node[anchor=west](AUstopLabel){Cu, Al U stop}
         (ADstop.out) node[anchor=west]{Cu, Al D stop}
         ;
         % box
         \node[rectangle,draw,dashed,fit=(T1E) (AD) (ATUnotD) (T1Edelay)](CuAl){};
-        \node[anchor=north, align=center] at (CuAl.south){Cu, Al};
+        \node[anchor=north, align=center] at (CuAl.south){Cu, Al INPUTS};
     % gate
     \draw
         % and9
@@ -217,5 +217,8 @@
         ;
         % box
         \node[rectangle,draw,dashed,fit=(gateA) (gateB) (and9) (and10)](gates){};
-        \node[anchor=north, align=center] at (gates.south east){GATES};
+        \node[anchor=north east, align=left] at (gates.south east){GATES};
+    % outputs box
+    \node[rectangle,draw,dashed,fit=(AUstop)(BDstop)(AUstopLabel)(BDstopLabel)](outputs){};
+    \node[anchor=north, align=center]at(outputs.south){OUTPUTS};
 \end{circuitikz}
