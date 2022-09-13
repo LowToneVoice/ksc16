@@ -2,6 +2,8 @@
 \usepackage{amsmath,amssymb}
 \usepackage[dvipdfmx]{graphicx}
 \usepackage{physics}
+% unit and No.
+\usepackage{siunitx}
 % calligraphy
 \usepackage{bm}
 \usepackage{mathrsfs}
@@ -21,7 +23,22 @@
 \usetikzlibrary{circuits.logic.US}
 \usetikzlibrary{positioning, fit}
 
+\title{宇宙線観察から学ぶ粒子の崩壊とスピン回転
+}
 \begin{document}
+\maketitle
+
+\section{理論}
+\subsection{ミュオンの生成}
+
+\subsection{ミュオンの崩壊}
+
+\subsection{ミュオンのスピン偏極}
+
+
+\section{実験・解析方法}
+\subsection{寿命測定}
+
 \begin{figure}
     \centering
     \begin{tabular}[]{cc}
@@ -36,18 +53,55 @@
         \end{minipage}
     \end{tabular}
     \caption{PSc+PMTの配置と粒子の飛程}
+    \label{img: PSc, PMT position and muon path}
 \end{figure}
+
 \begin{figure}
     \centering
     \input{../img/circuits/circiut-easy.tex}
     \caption{回路の概要}
     \label{img: circuit easy}
 \end{figure}
+
+\subsection{スピン偏極測定}
+
+
+\section{結果・考察}
+\subsection{ミュオンの寿命}
+
+\subsection{スピン偏極}
+
+
+\pagebreak
+
+
+
+\appendix
+\section{論理回路}
+実験で実際に用いたNIMモジュールの回路を図\ref{img: full circuit}に掲げる。
+主にCu, Alからの信号の入力部(Cu, Al)、大理石からの入力部($\mathrm{CaCO_3}$)、制御部(GATES)、出力部(OUTPUTS)に大別できる。
+
+入力はTUD各層それぞれ3組のPSc+PMTから引いている。
+それぞれT1, T2, T3, U1, ...と番号を振っている。
+Cu, AlのTに描いたようなor接続をCu, AlのU以下全ての入力端子でとっているが、簡単のためCu, AlのT以外は省略した。
+なお、このor接続以前でdelayを置いているのはCu, AlのTのみである。
+
+制御部GATESはCu, Alと大理石の信号が干渉しないようにスイッチの役割を果たす。
+具体的には、Cu, Al側のGGが起動している間は大理石の信号が入ってもstopと判定しない。
+逆もまた然りである。
+
+DAQ-PCでは短時間に複数のstart信号を受けたとき最初の信号のみを使用し、それ以降の信号は無視する。
+
 \begin{landscape}
     \begin{figure}
         \centering
         \input{../img/circuits/circuit.tex}
         \caption{実験で用いた論理回路}
+        \label{img: full circuit}
     \end{figure}
 \end{landscape}
+
+\begin{thebibliography}{10}
+    \bibitem{}
+\end{thebibliography}
 \end{document}
