@@ -1,0 +1,7 @@
+.vscode
+out/
+*.log
+*.out
+*.synctex.gz
+*.aux
+.DS_Store
