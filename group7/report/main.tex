@@ -2,6 +2,8 @@
 \usepackage{amsmath,amssymb}
 \usepackage[dvipdfmx]{graphicx}
 \usepackage{physics}
+% table
+\usepackage{booktabs}
 % unit and No.
 \usepackage{siunitx}
 % calligraphy
@@ -22,6 +24,10 @@
 \usetikzlibrary{intersections,calc,arrows.meta}
 \usetikzlibrary{circuits.logic.US}
 \usetikzlibrary{positioning, fit}
+% eq, fig, table number
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
 
 \title{宇宙線観察から学ぶ粒子の崩壊とスピン回転
 }
@@ -30,10 +36,151 @@
 
 \section{理論}
 \subsection{ミュオンの生成}
+\label{sec: theory: generation of muon}
+
+ミュオン$\mu^-$は第2世代の荷電レプトンであり、地表に到達する2次宇宙線の大部分を占める。
+% 文献裏ドリほしい
+電荷は$\pm1$, スピン$1/2$, 質量$\SI[]{105.658 3715(35)}[]{\MeV}$で電子の約200倍あり, 寿命は$\SI{2.1969811(22)}{\micro\second}$である。
+% 文献裏ドリほしい
+2次宇宙線のミュオンは主に荷電パイオンの崩壊によって生じる。
+1次宇宙線の陽子が大気上層で
+\begin{align*}
+    &p+p\to p+n+\pi^+
+    \\
+    &p+n\to p+p+\pi^-
+    \\
+    &p+n\to p+n+\pi^++\pi^-
+\end{align*}
+の反応を起こしてパイオンが生じ、
+\begin{align*}
+    &\pi^+\to\mu^++\nu_\mu
+    \\
+    &\pi^-\to\mu^-+\bar{\nu}_\mu
+\end{align*}
+と崩壊する。
+
+ニュートリノのヘリシティは負、反ニュートリノは正であるから、角運動量保存よりパイオン静止系にて$\mu^+$のスピンは運動量と逆、$\mu^-$は同じ向きとなる。
+パイオンの崩壊は主に電磁シャワー内部で生じることを考慮すると、実験室系にて地表に降り注ぐ向きの運動量が大きい$\mu^+$はスピンが下向き、$\mu^-$はスピンが上向きになる割合が多くなると考えられる。
+% 定量的なことを言いたい
+% 図が欲しい気もする
+
 
 \subsection{ミュオンの崩壊}
+\label{sec: theory: decay of muon}
 
-\subsection{ミュオンのスピン偏極}
+宇宙線ミュオンは地表に降り注ぐ間は固有時間がほとんど進まないが、
+% 文献ほしい
+資料にトラップされると平均寿命$\SI{2.1969811(22)}{\micro\second}$で崩壊し電子または陽電子を放出する。
+\begin{align*}
+    &\mu^+\to e^++\nu_e+\bar{\nu}_\mu
+    \\
+    &\mu^-\to e^-+\bar{\nu}_e+\nu_\mu
+\end{align*}
+Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電子の放出方向の分布が計算でき、以下の式で表される。
+% 文献ほしい
+\begin{align*}
+    &\dv{N(v,|b|,t)}{t}
+    =
+    N_0\frac{\lambda}{2\pi}y^2(3-2y)
+    \qty(
+        1+\frac{2y-1}{3-2y}P_z\cos\theta
+    )
+    e^{-\gamma t}\dd{y}\dd{\Omega}
+    \\
+    &N=
+    \iint N_0\frac{\lambda}{4\pi}
+    A_0(1+aP\cos\theta)e^{-\gamma t}
+    \dd{y}\dd{\Omega}
+\end{align*}
+% 図ほしい。できれば計算で求めたやつ。
+すなわち、$\mu^+$はスピンと同じ向きに陽電子を、$\mu^-$はスピンと逆向きに電子を出しやすい。
+
+\ref{sec: theory: generation of muon}を合わせて踏まえると、地表に降り注ぐミュオンのうち運動量の大きいものは上向きに、運動量の小さいものは下向きに(陽)電子を多く放出する。
+
+
+\subsection{負ミュオンの原子核捕獲}
+
+一部の$\mu^-$は物質中に侵入すると原子核のCoulombポテンシャルにとらわれミュオン原子を形成する。
+この$\mu^-$は特性X線やオージェ電子を放出して次第に低準位へ遷移し、やがて原子核へ落ち込む。
+原子核にて陽子と弱い相互作用をすることで中性子を放出する。
+\begin{equation*}
+    \mu^-+p\to n+\nu_\mu
+\end{equation*}
+
+$\mu^-$の減衰比には通常の崩壊に加えてこの原子核捕獲の確率も加わるため、寿命は$\mu^+$に比べて短くなる。
+寿命変化は原子核に依存し、今回使用した試料に含まれる元素では表\ref{table: life of muon}のようになる\cite{Ito Kaji Tabata Yoshiwara}。
+
+% もうちょい桁数ほしい
+\begin{table}
+    \centering
+    \caption{各元素における$\mu^-$の寿命変化}
+    \begin{tabular}{lrr}
+        \toprule
+        元素 & 文献値$[\unit{\micro\second}]$
+        \\
+        \midrule
+        Cu & 0.16
+        \\
+        Al & 0.86
+        \\
+        Ca & 0.33
+        \\
+        C & 2.04
+        \\
+        O & 0.81
+        \\
+        \bottomrule
+    \end{tabular}
+    \label{table: life of muon}
+\end{table}
+
+% 元素を混ぜた時の寿命についても書きたい
+
+ミュオンが試料に停止してから崩壊して(陽)電子を出すまでの時間$t$を計測し、$(t,t+\Delta t)$のカウント$N(t)$をヒストグラムで集計すれば、$\mu^-$の寿命変化及び計測のバックグラウンド$BG$を反映して以下の式が成立すると考えられる。
+\begin{equation}
+    \label{eq: N of t considering different tau and BG}
+    N(t)
+    =
+    N_0^+e^{-t/\tau_+}
+    +
+    N_0^-e^{-t/\tau_-}
+    +
+    BG
+\end{equation}
+
+
+\subsection{ミュオンのスピン偏極検出}
+
+\ref{sec: theory: decay of muon}に基づけば、磁場をかけない状態で運動量の比較的大きいミュオンを多くトラップする試料を上下2つの検出器で挟むと上側で(陽)電子をより多く検出する。
+しかし上下の検出数の差がスピン偏極によるものなのか検出器の特性によるものなのかを判断することは難しい。
+
+磁気回転比$\gamma$のミュオンスピンに磁場$\bm{B}$がかかると、
+\begin{equation}
+    \label{eq: Larmor precession}
+    \bm{\omega}=\gamma\bm{B}
+\end{equation}
+の角速度で歳差運動を行う(Larmor歳差運動)。
+これを使うことで上記の問題が解決できる。
+
+上下の検出器でのカウントをそれぞれ$N_U, N_D$とする。
+\ref{sec: theory: decay of muon}で述べた$\mu^-$の原子核捕獲も考慮すると、以下の式が成り立つと考えられる。
+\begin{align*}
+    N_U
+    =
+    N_{U0}^+(1+AP^+\cos\omega t)e^{-t/\tau_+}
+    +
+    N_{U0}^-(1+AP^-\cos\omega t)e^{-t/\tau_-}
+    +
+    BG_D
+    \\
+    N_D
+    =
+    N_{D0}^+(1+AP^+\cos\omega t)e^{-t/\tau_+}
+    +
+    N_{D0}^-(1+AP^-\cos\omega t)e^{-t/\tau_-}
+    +
+    BG_D
+\end{align*}
 
 
 \section{実験・解析方法}
@@ -41,15 +188,20 @@
 
 \begin{figure}
     \centering
-    \begin{tabular}[]{cc}
+    \begin{tabular}[]{ccc}
         \begin{minipage}[t]{0.3\hsize}
             \input{../img/models/pass-through.tex}
             \subcaption{試料を通過する場合}
         \end{minipage}
         &
         \begin{minipage}[t]{0.3\hsize}
+            \input{../img/models/decay-intoU.tex}
+            \subcaption{崩壊してUに電子を飛ばす場合}
+        \end{minipage}
+        &
+        \begin{minipage}[t]{0.3\hsize}
             \input{../img/models/decay-intoD.tex}
-            \subcaption{崩壊してDに(陽)電子を飛ばす場合}
+            \subcaption{崩壊してDに電子を飛ばす場合}
         \end{minipage}
     \end{tabular}
     \caption{PSc+PMTの配置と粒子の飛程}
@@ -102,6 +254,6 @@ DAQ-PCでは短時間に複数のstart信号を受けたとき最初の信号の
 \end{landscape}
 
 \begin{thebibliography}{10}
-    \bibitem{}
+    \bibitem{Ito Kaji Tabata Yoshiwara} 伊藤泰男,鍛冶東海,田畑米穂,吉原賢二,「素粒子の化学」学会出版センター(1985)
 \end{thebibliography}
 \end{document}
