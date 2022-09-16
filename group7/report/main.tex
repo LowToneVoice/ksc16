@@ -35,6 +35,7 @@
 \maketitle
 
 \section{理論}
+
 \subsection{ミュオンの生成}
 \label{sec: theory: generation of muon}
 
@@ -58,6 +59,7 @@
     &\pi^-\to\mu^-+\bar{\nu}_\mu
 \end{align*}
 と崩壊する。
+% 以下全ての反応について、ファインマンダイアグラム描けそうだったら書いて欲しい。必要そうならの話だけど。
 
 ニュートリノのヘリシティは負、反ニュートリノは正であるから、角運動量保存よりパイオン静止系にて$\mu^+$のスピンは運動量と逆、$\mu^-$は同じ向きとなる。
 パイオンの崩壊は主に電磁シャワー内部で生じることを考慮すると、実験室系にて地表に降り注ぐ向きの運動量が大きい$\mu^+$はスピンが下向き、$\mu^-$はスピンが上向きになる割合が多くなると考えられる。
@@ -78,20 +80,23 @@
 \end{align*}
 Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電子の放出方向の分布が計算でき、以下の式で表される。
 % 文献ほしい
-\begin{align*}
-    &\dv{N(v,|b|,t)}{t}
+\begin{equation*}
+    \dv{N(v,|b|,t)}{t}
     =
     N_0\frac{\lambda}{2\pi}y^2(3-2y)
     \qty(
         1+\frac{2y-1}{3-2y}P_z\cos\theta
     )
     e^{-\gamma t}\dd{y}\dd{\Omega}
-    \\
-    &N=
+\end{equation*}
+積分して、
+\begin{equation*}
+    N=
     \iint N_0\frac{\lambda}{4\pi}
     A_0(1+aP\cos\theta)e^{-\gamma t}
     \dd{y}\dd{\Omega}
-\end{align*}
+\end{equation*}
+を得る。
 % 図ほしい。できれば計算で求めたやつ。
 すなわち、$\mu^+$はスピンと同じ向きに陽電子を、$\mu^-$はスピンと逆向きに電子を出しやすい。
 
@@ -107,7 +112,7 @@ Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電�
     \mu^-+p\to n+\nu_\mu
 \end{equation*}
 
-$\mu^-$の減衰比には通常の崩壊に加えてこの原子核捕獲の確率も加わるため、寿命は$\mu^+$に比べて短くなる。
+(陽)電子だけでなく中性子も検出する装置を使うと、$\mu^-$の減衰比には通常の崩壊に加えてこの原子核捕獲の確率も加わるため、見かけの寿命は$\mu^+$に比べて短くなる。
 寿命変化は原子核に依存し、今回使用した試料に含まれる元素では表\ref{table: life of muon}のようになる\cite{Ito Kaji Tabata Yoshiwara}。
 
 % もうちょい桁数ほしい
@@ -153,6 +158,7 @@ $\mu^-$の減衰比には通常の崩壊に加えてこの原子核捕獲の確�
 
 \ref{sec: theory: decay of muon}に基づけば、磁場をかけない状態で運動量の比較的大きいミュオンを多くトラップする試料を上下2つの検出器で挟むと上側で(陽)電子をより多く検出する。
 しかし上下の検出数の差がスピン偏極によるものなのか検出器の特性によるものなのかを判断することは難しい。
+% 実際の実験装置とは別に試料上下に検出器を置いている図が欲しい。概念的なものなのでTはいらない。
 
 磁気回転比$\gamma$のミュオンスピンに磁場$\bm{B}$がかかると、
 \begin{equation}
@@ -164,23 +170,39 @@ $\mu^-$の減衰比には通常の崩壊に加えてこの原子核捕獲の確�
 
 上下の検出器でのカウントをそれぞれ$N_U, N_D$とする。
 \ref{sec: theory: decay of muon}で述べた$\mu^-$の原子核捕獲も考慮すると、以下の式が成り立つと考えられる。
-\begin{align*}
-    N_U
+\begin{equation}
+    \label{eq: N under Larmor}
+    \begin{split}
+        N_U
+        &=
+        N_{U0}^+(1+AP^+\cos\omega t)e^{-t/\tau_+}
+        +
+        N_{U0}^-(1+AP^-\cos\omega t)e^{-t/\tau_-}
+        +
+        BG_D
+        \\
+        N_D
+        &=
+        N_{D0}^+(1-AP^+\cos\omega t)e^{-t/\tau_+}
+        +
+        N_{D0}^-(1-AP^-\cos\omega t)e^{-t/\tau_-}
+        +
+        BG_D
+    \end{split}
+\end{equation}
+ここで$\tau_-$は原子核捕獲のため一般に小さく、$\mu^-$は試料に侵入すると周囲の電子との間で相互作用してスピン偏極が破れる。
+% 文献ほしい
+このため$t\gg\tau_-$にて\eqref{eq: N under Larmor}各式の第2項は無視できる。
+$N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って、
+\begin{equation}
+    \label{eq: asymmetry}
+    \mathscr{A}
     =
-    N_{U0}^+(1+AP^+\cos\omega t)e^{-t/\tau_+}
-    +
-    N_{U0}^-(1+AP^-\cos\omega t)e^{-t/\tau_-}
-    +
-    BG_D
-    \\
-    N_D
+    \frac{\alpha N_U'-N_D'}{\alpha N_U'+N_D'}
     =
-    N_{D0}^+(1+AP^+\cos\omega t)e^{-t/\tau_+}
-    +
-    N_{D0}^-(1+AP^-\cos\omega t)e^{-t/\tau_-}
-    +
-    BG_D
-\end{align*}
+    \frac{(\alpha N_{U0}^+-N_{D0}^+)+(\alpha N_{U0}^++N_{D0}^+)AP^+\cos\omega t}{(\alpha N_{U0}^++N_{D0}^+)+(\alpha N_{U0}^+-N_{D0}^+)AP^+\cos\omega t}
+\end{equation}
+と表される非対称度は、$\alpha N_{U0}^+-N_{D0}^+=0$なる$\alpha$にて角振動数$\omega$の三角関数となる。
 
 
 \section{実験・解析方法}
@@ -229,6 +251,14 @@ $\mu^-$の減衰比には通常の崩壊に加えてこの原子核捕獲の確�
 
 
 \appendix
+\setcounter{section}{0}
+\setcounter{equation}{1}
+\setcounter{figure}{1}
+\setcounter{table}{1}
+\renewcommand{\theequation}{\Alph{section}.\arabic{equation} }
+\renewcommand{\thefigure}{\Alph{section}.\arabic{equation} }
+\renewcommand{\thetable}{\Alph{section}.\arabic{equation} }
+
 \section{論理回路}
 実験で実際に用いたNIMモジュールの回路を図\ref{img: full circuit}に掲げる。
 主にCu, Alからの信号の入力部(Cu, Al)、大理石からの入力部($\mathrm{CaCO_3}$)、制御部(GATES)、出力部(OUTPUTS)に大別できる。

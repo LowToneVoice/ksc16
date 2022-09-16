@@ -3,5 +3,8 @@ out/
 *.log
 *.out
 *.synctex.gz
+*.synctex(busy)
 *.aux
-.DS_Store
+*.dvi
+*.toc
+*.DS_Store

@@ -13,7 +13,7 @@
         node[twoportshape, anchor=west, t=GG] (gateBlocal){} ++(1,0)
         % gate delay
         to [short] ++(0.5,0)
-        node[align=left, anchor=west](gateBdelay){\small delay\\ 31 ns} ++(1,0)
+        node[align=left, anchor=west](gateBdelay){\small delay\\$\SI{31}{\nano\second}$} ++(1,0)
         % to D stop
         to [short] ++(0.5,0)
         to [short, *-] ++(0,-1.5)
@@ -45,7 +45,7 @@
         node[anchor=east](D){$\mathrm{CaCO_3}$ D}
         (0.5,-0.38) to [short, *-] ++(0,-1)
         -- ++(2,0)
-        node[align=left, anchor=west]{\small delay\\ 2 ns} ++(1,0)
+        node[align=left, anchor=west]{\small delay\\ $\SI{2}{\nano\second}$} ++(1,0)
         -| (BUstoplocal.in 2)
         (0.7, -0.75) to [short, *-] ++(0,-1.4)
         |- (BDstoplocal.in 2)
@@ -71,19 +71,19 @@
         % T1E
         (0,7) node[anchor=east](T1E){Cu, Al T1}
         -- ++(1.2,0)
-        node[align=left, anchor=west](T1Edelay){\small delay\\ 22 ns} (1,0)
+        node[align=left, anchor=west](T1Edelay){\small delay\\ $\SI{22}{\nano\second}$} (1,0)
         (T1Edelay.south) |- (ATor.in 1)
         % T2E
         (0,5.62)
         node[anchor=east]{Cu, Al T2}
         -- ++(0.5,0)
-        node[align=left, anchor=west](T2Edelay){\small delay\\ 14 ns} (1,0)
+        node[align=left, anchor=west](T2Edelay){\small delay\\ $\SI{14}{\nano\second}$} (1,0)
         (T2Edelay.east) -- (ATor.in 2)
         % T3E
         (0,4.5)
         node[anchor=east]{Cu, Al T3}
         -- ++(1.2,0)
-        node[align=left, anchor=west](T3Edelay){\small delay\\ 30 ns}
+        node[align=left, anchor=west](T3Edelay){\small delay\\ $\SI{30}{\nano\second}$}
         (T3Edelay.north) |- (ATor.in 3)
         ;
         \draw
@@ -112,7 +112,7 @@
         to [short, *-] ++(0,1.5)
         -| ++(2,3.6)
         -- ++(1,0)
-        node[anchor=west, align=left]{\small delay\\ 30 ns} ++(1,0)
+        node[anchor=west, align=left]{\small delay\\ $\SI{30}{\nano\second}$} ++(1,0)
         % to [short] ++(1,0)
         -- (AUstop.in 1)
         % AD stop
