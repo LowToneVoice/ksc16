@@ -28,6 +28,23 @@
 \renewcommand{\theequation}{\thesection.\arabic{equation}}
 \renewcommand{\thefigure}{\thesection.\arabic{figure}}
 \renewcommand{\thetable}{\thesection.\arabic{table}}
+% displaying codes
+% cf. https://turgure.hatenablog.com/entry/2016/08/19/183501
+\lstnewenvironment{mylisting}[1][]
+    {\lstset{
+        frame=single,
+        basicstyle=\ttfamily,
+        numbers=left,
+        numbersep=10pt,
+        tabsize=2,
+        extendedchars=true,
+        xleftmargin=17pt,
+        framexleftmargin=17pt,
+        #1
+    }
+}{}
+% no page no.
+\pagestyle{empty}
 
 \title{宇宙線観察から学ぶ粒子の崩壊とスピン回転
 }
@@ -206,6 +223,15 @@ $N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って、
 
 
 \section{実験・解析方法}
+
+本演習では、
+\begin{itemize}
+    \item ミュオンの寿命
+    \item 負ミュオンの寿命変化
+    \item スピン偏極
+\end{itemize}
+の測定を目的とする。
+
 \subsection{寿命測定}
 
 \begin{figure}
@@ -282,6 +308,15 @@ DAQ-PCでは短時間に複数のstart信号を受けたとき最初の信号の
         \label{img: full circuit}
     \end{figure}
 \end{landscape}
+
+
+\section{解析コード}
+
+\subsection{寿命測定}
+
+\begin{mylisting}[language=c++]
+% ここにソースコードを書くと、行番号付きでいい具合に表示される。
+\end{mylisting}
 
 \begin{thebibliography}{10}
     \bibitem{Ito Kaji Tabata Yoshiwara} 伊藤泰男,鍛冶東海,田畑米穂,吉原賢二,「素粒子の化学」学会出版センター(1985)
