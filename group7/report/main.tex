@@ -32,14 +32,15 @@
 % cf. https://turgure.hatenablog.com/entry/2016/08/19/183501
 \lstnewenvironment{mylisting}[1][]
     {\lstset{
+        breaklines=true,
         frame=single,
         basicstyle=\ttfamily,
         numbers=left,
         numbersep=10pt,
-        tabsize=2,
+        tabsize=4,
         extendedchars=true,
-        xleftmargin=17pt,
-        framexleftmargin=17pt,
+        xleftmargin=24pt,
+        framexleftmargin=24pt,
         #1
     }
 }{}
@@ -176,14 +177,13 @@ Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電�
 \ref{sec: theory: decay of muon}に基づけば、磁場をかけない状態で運動量の比較的大きいミュオンを多くトラップする試料を上下2つの検出器で挟むと上側で(陽)電子をより多く検出する。
 しかし上下の検出数の差がスピン偏極によるものなのか検出器の特性によるものなのかを判断することは難しい。
 % 実際の実験装置とは別に試料上下に検出器を置いている図が欲しい。概念的なものなのでTはいらない。
-
+そこで偏極の検出では一般にLarmor歳差運動を用いる。
 磁気回転比$\gamma$のミュオンスピンに磁場$\bm{B}$がかかると、
 \begin{equation}
     \label{eq: Larmor precession}
     \bm{\omega}=\gamma\bm{B}
 \end{equation}
-の角速度で歳差運動を行う(Larmor歳差運動)。
-これを使うことで上記の問題が解決できる。
+の角速度で歳差運動する。
 
 上下の検出器でのカウントをそれぞれ$N_U, N_D$とする。
 \ref{sec: theory: decay of muon}で述べた$\mu^-$の原子核捕獲も考慮すると、以下の式が成り立つと考えられる。
@@ -209,7 +209,7 @@ Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電�
 \end{equation}
 ここで$\tau_-$は原子核捕獲のため一般に小さく、$\mu^-$は試料に侵入すると周囲の電子との間で相互作用してスピン偏極が破れる。
 % 文献ほしい
-このため$t\gg\tau_-$にて\eqref{eq: N under Larmor}各式の第2項は無視できる。
+このため$t\gg\tau_-$として\eqref{eq: N under Larmor}各式の第2項は無視できる。
 $N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って、
 \begin{equation}
     \label{eq: asymmetry}
@@ -298,10 +298,14 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
 \ref{sec: method: life}でのCu, Alの実験と同様にセットアップした上で、ソレノイドコイルによって水平に磁場を印加、崩壊時間を測定する。
 
 解析にあたっては、まず上下別々にヒストグラムを描いて
-\begin{equation*}
-    N_U(t)=N_U^0e^{-t/\tau_U}+BG_U,\qquad
-    N_D(t)=N_D^0e^{-t/\tau_D}+BG_D
-\end{equation*}
+\begin{equation}
+    \label{eq: method: rough fitting of spin polarization by exp}
+    \begin{split}
+        &N_U(t)=N_U^0e^{-t/\tau_U}+BG_U
+        \\
+        &N_D(t)=N_D^0e^{-t/\tau_D}+BG_D
+    \end{split}
+\end{equation}
 でフィッティングする。
 得られたバックグラウンドを除いて$N_U'=N_U-BG_U, N_D'=N_D-BG_D$とし、$\alpha$を変えて非対称度\eqref{eq: asymmetry}を計算する。
 % alphaっていくつおきに変えたっけ？
@@ -316,9 +320,6 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
 \subsection{スピン偏極}
 
 
-\pagebreak
-
-
 
 \appendix
 \setcounter{section}{0}
@@ -328,6 +329,7 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
 \renewcommand{\theequation}{\Alph{section}.\arabic{equation} }
 \renewcommand{\thefigure}{\Alph{section}.\arabic{equation} }
 \renewcommand{\thetable}{\Alph{section}.\arabic{equation} }
+
 
 \section{論理回路}
 \label{sec: logic circuit}
@@ -358,11 +360,249 @@ DAQ-PCでは短時間に複数のstart信号を受けたとき最初の信号の
 
 \section{解析コード}
 
+ここでは解析に用いたコードの概要を示す。
+変数の宣言やヒストグラムの取得などは省略しているため、表示の通りに実装しても作動しない。
+実際に解析で使用したものは\url{https://github.com/LowToneVoice/ksc16/tree/main/group7/analysis}を参照のこと。
+また測定データを\url{https://github.com/LowToneVoice/ksc16/tree/main/group7/data}に置いている。
+
 \subsection{寿命測定}
 
-\begin{mylisting}[language=c++]
-% ここにソースコードを書くと、行番号付きでいい具合に表示される。
+\begin{mylisting}[language=c++, caption=life.C]
+void life()
+{
+    // sum of hists
+    hu->Add(hd);
+    // configure bin of hist
+    hu->Rebin(100);
+    // max and min of axis
+    hu->GetXaxis()->SetRangeUser(0, 20000);
+    hu->GetYaxis()->SetRangeUser(0.1, 300);
+    hu->Draw();
+
+    // fitting curve
+    TF1 *f1 = new TF1("f1", "[ 0 ] * exp( -(x / [ 1 ])) + [ 2 ] * exp( -(x / [ 3 ])) +  [ 4 ] ");
+    f1->SetParameters(150, 2000.0, 120, 900.0, 2.0);
+    f1->SetParNames("N_{+}", "#tau_{+}", "N_{-}", "#tau_{-}", "BG");
+    hu->Fit("f1", "", "", 100, 20000);
+    hu->SetLineWidth(2.0);
+    // y axis to log scale
+    c1->SetLogy();
+    // label displayed with the graph
+    hu->SetTitle("CaCO3 51h;time [ns];count;");
+}
 \end{mylisting}
+
+\subsection{スピン偏極測定}
+% 各コードで何が出てくるか、どうやって運用するかを記述。
+まずexpFit.Cで\eqref{eq: method: rough fitting of spin polarization by exp}のフィッティングを行いバックグラウンドを求める。
+
+\begin{mylisting}[language=c++,caption=expFit.C]
+void expFit()
+{
+    hu->Rebin(100);
+    hd->Rebin(100);
+
+    TF1 *fd = new TF1("fu", "[ 0 ] * exp( -(x / [ 1 ]) + [ 2 ]) +  [ 3 ] ");
+    TF1 *fd = new TF1("fd", "[ 0 ] * exp( -(x / [ 1 ]) + [ 2 ]) +  [ 3 ] ");
+    fu->SetParameters( 200.0, 2000.0, 0.0, 0.0);
+    fu->SetParNames("N_U", "#tau_U", "t0_U", "BG_U");
+    fd->SetParameters( 100.0, 2000.0, 0.0, 0.0);
+    fd->SetParNames("N_D", "#tau_D", "t0_D", "BG_D");
+    hu->Fit("fu", "", "", 300, 22000);
+    hu->SetLineWidth(2.0);
+    hd->Fit("fd", "", "", 300, 22000);
+    hd->SetLineWidth(2.0);
+
+    hd->Draw();
+    hd->SetLineColor(kRed);
+    hd->GetXaxis()->SetRangeUser(0,25000);
+    hd->GetYaxis()->SetRangeUser(0.9,500);
+    hu->Draw("same");
+    hu->GetXaxis()->SetRangeUser(0,25000);
+    hu->GetYaxis()->SetRangeUser(0.9,500);
+    c1->SetLogy();
+}
+\end{mylisting}
+
+\begin{mylisting}[language=c++,caption=findPar.C]
+void findPar()
+{
+    TH1D* hu;
+    TH1D* hd;
+    const char *fp = "4013.root";
+    TFile *file = new  TFile(fp);
+    file->GetObject("...", hu);
+    file->GetObject("...", hd);
+
+    TH1D* h3;
+    TH1D* h4;
+
+    TCanvas *c1= new TCanvas("c1","c1", 600, 600);
+
+    // copy the hists
+    TH1D* hu_init;
+    TH1D* hd_init;
+    hu_init = (TH1D*)hu->Clone();
+    hd_init = (TH1D*)hd->Clone();
+
+    int i,j,k;
+    Double_t erfun;
+    Double_t ndf;
+    Double_t prob;
+
+    // parameters
+    int offset;
+    double alpha;
+
+    // BGs
+    const double bg_1 = ...;
+    const double bg_2 = ...;
+
+    ofstream outputfile_chi2("param_chi2.dat");
+    ofstream outputfile_prob("param_prob.dat");
+    for(k=0; k < 50; k++){
+        for(j=0; j < 40; j++){
+
+            offset = -200 + 10 * j;
+            alpha = 0.1 + k * 0.1;
+
+            hu = (TH1D*)hu_init->Clone();
+            hd = (TH1D*)hd_init->Clone();
+
+            // move hd left as long as offset
+            for(i=0; i < hd->GetXaxis()->GetNbins(); i++){
+                if (offset + i < 0){
+                    hd->SetBinContent(i, 0);
+                }else{
+                    hd->SetBinContent(i, (hd_init->GetBinContent(i + offset)));
+                }
+            }
+
+            // rebin
+            hu->Rebin(100);
+            hd->Rebin(100);
+
+            // for error evaluation
+            hu->Sumw2();
+            hd->Sumw2();
+
+            // deleting BGs
+            for(i=0; i < hu->GetXaxis()->GetNbins(); i++){
+                hu->SetBinContent(i, hu->GetBinContent(i) - bg_1);
+            }
+
+            for(i=0; i < hd->GetXaxis()->GetNbins(); i++){
+                hd->SetBinContent(i, (hd->GetBinContent(i) - bg_2));
+            }
+
+
+            h3 = (TH1D*)hu->Clone();
+            h4 = (TH1D*)hd->Clone();
+
+            //hd times alpha
+            for(i=0; i < hd->GetXaxis()->GetNbins(); i++){
+                hd->SetBinContent(i, (h4->GetBinContent(i)) * alpha);
+                hd->SetBinError(i, (h4->GetBinError(i)) * alpha);
+            }
+
+            // D-U/D+U
+            h3 = (TH1D*)hu->Clone();
+            h4 = (TH1D*)hd->Clone();
+            h4->Add(h3, -1);
+            hd->Add(hu, 1);
+            h4->Divide(hd);
+
+            // fit by cos
+            TF1 *f = new TF1("f", "[0]*cos(2*TMath::Pi()*(x - [2])/[1])");
+            f->SetParNames("A", "T", "t_offset");
+            f->SetParameters(0.1, 3500, 0.0);
+            f->SetParLimits(1, 2500, 4500);
+            f->SetParLimits(0, 0.01, 0.5);
+            f->SetParLimits(2, -500.0, 500.0);
+            h4->Fit("f", "", "", 300, 5000);
+
+            // output chi^2
+            erfun = h4->GetFunction("f")->GetChisquare();
+            ndf = h4->GetFunction("f")->GetNDF();
+            prob = h4->GetFunction("f")->GetProb();
+            outputfile_chi2 << erfun / ndf << " ";
+            outputfile_prob << prob << " ";
+        }
+        // change the lines of output
+        outputfile_chi2 << endl;
+        outputfile_prob << endl;
+    }
+    outputfile_chi2.close();
+    outputfile_prob.close();
+}
+\end{mylisting}
+
+\begin{mylisting}[language=python,caption=plotError.py]
+import numpy as np
+from matplotlib import pyplot as plt
+
+# define a graph
+fig = plt.figure(figsize=(20,5))
+# define subgraphs and arrange
+ax1 = fig.add_subplot(1,2,1)
+ax2 = fig.add_subplot(1,2,2)
+
+# the 1st graph
+ax = ax1
+with open('param_chi2.dat') as f:
+    ar = np.loadtxt(f);
+
+ar = ar[:,:]
+ax.set_title(f"chi^2/ndf")
+ax.set_xlabel('t_offset')
+ax.set_ylabel('alpha')
+extent = [
+    -200,
+    200,
+    5.1,
+    0.1
+]
+aspect = abs(300 / 5.0)
+im = ax.imshow(
+    ar,
+    cmap='jet',
+    # vmin=0, vmax=100,
+    extent=extent,
+    aspect=aspect,
+)
+colorbar = fig.colorbar(im, ax=ax1, label='colorbar')
+
+# 2nd graph
+with open('param_prob.dat', "r") as f:
+    ar = np.loadtxt(f);
+
+ar = ar[:,:]
+
+ax2.set_title(f"prob")
+ax2.set_xlabel('t_offset')
+ax2.set_ylabel('alpha')
+extent = [
+    -200,
+    200,
+    5.1,
+    0.1
+]
+aspect = abs(300 / 5.0)
+im = ax2.imshow(
+    ar,
+    cmap='jet',
+    # vmin=0, vmax=100,
+    extent=extent,
+    aspect=aspect,
+)
+colorbar = fig.colorbar(im, ax=ax2, label='colorbar')
+plt.grid(True)
+# save
+# plt.savefig("findparam_wide_5.png")
+plt.show()
+\end{mylisting}
+
+
 
 \begin{thebibliography}{10}
     \bibitem{Ito Kaji Tabata Yoshiwara} 伊藤泰男,鍛冶東海,田畑米穂,吉原賢二,「素粒子の化学」学会出版センター(1985)
