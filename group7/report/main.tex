@@ -233,6 +233,31 @@ $N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って、
 の測定を目的とする。
 
 \subsection{寿命測定}
+\label{sec: method: life}
+
+図\ref{fig: PSc, PMT position and muon path}に示すように試料を上下からプラスチックシンチレータ(PSc)で挟み光電子増倍管(PMT)に接続する。
+試料にはCu, Alの板を重ね合わせたものと、大理石の板とを使った。
+PSc+PMTは上層から順にT,U,Dとし、各層でシンチレーション光を別々に検出できるようにする。
+
+宇宙線及び崩壊粒子
+\footnote{$\mu^-$の原子核捕獲で生じる中性子も速度が〜となってPScの検出下限〜を上回る。}
+% 文献ほしい。崩壊中性子の速度とPSc内部の光速
+の飛程を考慮すると、以下の事象が考えられる。
+\renewcommand{\theenumi}{(\alph{enumi})}
+\begin{enumerate}
+    \item \label{item: pass through}粒子が試料を通過
+    \item \label{item: decay into U}崩壊時に粒子を上方へ放出
+    \item \label{item: decay into D}崩壊時に粒子を下方へ放出
+\end{enumerate}
+事象\ref{item: pass through}ではTUD全てのPSc+PMTが反応するが、事象\ref{item: decay into U}, \ref{item: decay into D}ではまずTUが反応しDが反応しない。
+その後時間を置いて粒子が崩壊すると、事象\ref{item: decay into U}ではUが、事象\ref{item: decay into D}ではDが反応する。
+
+各事象を弁別するためおおよそ図\ref{fig: circuit easy}に示す論理回路を組む。
+\footnote{実際に構成した論理回路は\ref{sec: logic circuit}を参照。2種類の試料を同時に測定するため、入出力が2系統あるのに加えて制御系統が複雑になっている。}
+左端のandゲートでミュオンが試料に停止したか検出し、停止すればgate generatorを作動、時間測定を開始する。
+このgate generatorが作動している間にUまたはDで信号を検出すれば、崩壊によって粒子が放出されたものとして同図右側のand gateで測定を止める。
+
+Cu, Al及び及び大理石それぞれの試料で計測は$\SI{18}{\hour}, \SI{51}{\hour}$にわたって行った。
 
 \begin{figure}
     \centering
@@ -252,18 +277,37 @@ $N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って、
             \subcaption{崩壊してDに電子を飛ばす場合}
         \end{minipage}
     \end{tabular}
-    \caption{PSc+PMTの配置と粒子の飛程}
-    \label{img: PSc, PMT position and muon path}
+    \caption{PSc+PMTの配置と粒子の飛程。着色部が試料を表す。}
+    \label{fig: PSc, PMT position and muon path}
 \end{figure}
 
 \begin{figure}
     \centering
     \input{../img/circuits/circiut-easy.tex}
-    \caption{回路の概要}
-    \label{img: circuit easy}
+    \caption{回路の概要。GGはgate generatorを表し、入力から所定の時間(本演習では$\SI[]{20}[]{\micro\second}$)出力を続ける。}
+    \label{fig: circuit easy}
 \end{figure}
 
+U, D両側で測定したカウント$N_U, N_D$を合計して、時間を横軸としてヒストグラムにする。
+% rebin 100 って何ns?
+$N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従うはずであるから、この式によってフィッティングし寿命$\tau_+, \tau_-$を求める。
+
+
 \subsection{スピン偏極測定}
+
+\ref{sec: method: life}でのCu, Alの実験と同様にセットアップした上で、ソレノイドコイルによって水平に磁場を印加、崩壊時間を測定する。
+
+解析にあたっては、まず上下別々にヒストグラムを描いて
+\begin{equation*}
+    N_U(t)=N_U^0e^{-t/\tau_U}+BG_U,\qquad
+    N_D(t)=N_D^0e^{-t/\tau_D}+BG_D
+\end{equation*}
+でフィッティングする。
+得られたバックグラウンドを除いて$N_U'=N_U-BG_U, N_D'=N_D-BG_D$とし、$\alpha$を変えて非対称度\eqref{eq: asymmetry}を計算する。
+% alphaっていくつおきに変えたっけ？
+各$\alpha$に対して$\mathscr{A}$を$A\cos(2\pi ft)$でフィッティングし、このフィッティングの$\chi^2$の上側累積確率が低くなる$\alpha$における$f$を振動数の測定値とする。
+
+検証のため測定値$f$と\eqref{eq: Larmor precession}から磁場の強さ$B$を逆算して、ソレノイドコイルの設計上期待される値$B_{design}=\SI{20}{\milli\tesla}$と比較する。
 
 
 \section{結果・考察}
@@ -286,7 +330,9 @@ $N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って、
 \renewcommand{\thetable}{\Alph{section}.\arabic{equation} }
 
 \section{論理回路}
-実験で実際に用いたNIMモジュールの回路を図\ref{img: full circuit}に掲げる。
+\label{sec: logic circuit}
+
+実験で実際に用いたNIMモジュールの回路を図\ref{fig: full circuit}に掲げる。
 主にCu, Alからの信号の入力部(Cu, Al)、大理石からの入力部($\mathrm{CaCO_3}$)、制御部(GATES)、出力部(OUTPUTS)に大別できる。
 
 入力はTUD各層それぞれ3組のPSc+PMTから引いている。
@@ -305,7 +351,7 @@ DAQ-PCでは短時間に複数のstart信号を受けたとき最初の信号の
         \centering
         \input{../img/circuits/circuit.tex}
         \caption{実験で用いた論理回路}
-        \label{img: full circuit}
+        \label{fig: full circuit}
     \end{figure}
 \end{landscape}
 
