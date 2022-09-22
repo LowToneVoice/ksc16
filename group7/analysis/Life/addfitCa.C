@@ -36,7 +36,7 @@ void addfitCa()
     hu->Rebin(100);
     // hist range
     hu->GetXaxis()->SetRangeUser(0, 20000);
-    hu->GetYaxis()->SetRangeUser(0.1, 300);
+    hu->GetYaxis()->SetRangeUser(0.9, 300);
     hu->Draw();
 
     // FITTING CURVE

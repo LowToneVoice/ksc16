@@ -25,9 +25,33 @@
 \usetikzlibrary{circuits.logic.US}
 \usetikzlibrary{positioning, fit}
 % eq, fig, table number
-\renewcommand{\theequation}{\thesection.\arabic{equation}}
-\renewcommand{\thefigure}{\thesection.\arabic{figure}}
-\renewcommand{\thetable}{\thesection.\arabic{table}}
+\makeatletter
+    % reference to <section>.<ref>
+    \renewcommand{\theequation}{\thesection.\arabic{equation}}
+    \renewcommand{\thefigure}{\thesection.\arabic{figure}}
+    \renewcommand{\thetable}{\thesection.\arabic{table}}
+
+    % reset references when renew section
+    \@addtoreset{equation}{section}
+    \@addtoreset{figure}{section}
+    \@addtoreset{table}{section}
+
+    % for appendix
+    % cf. https://geniusium.hatenablog.com/entry/2022/02/08/074315
+    \renewcommand{\appendix}{\par
+        % renew section No.
+        \setcounter{section}{0}
+        \setcounter{subsection}{0}
+        \gdef\presectionname{\appendixname}
+        \gdef\postsectionname{}
+        \gdef\thesection{\presectionname\@Alph\c@section\postsectionname}
+        \gdef\thesubsection{\@Alph\c@section.\@arabic\c@subsection}
+        % reference styles
+        \renewcommand{\theequation}{\@Alph\c@section.\arabic{equation}}%
+        \renewcommand{\thefigure}{\@Alph\c@section.\arabic{figure}}%
+        \renewcommand{\thetable}{\@Alph\c@section.\arabic{table}}%
+    }
+\makeatother
 % displaying codes
 % cf. https://turgure.hatenablog.com/entry/2016/08/19/183501
 \lstnewenvironment{mylisting}[1][]
@@ -308,6 +332,14 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
 \end{equation}
 でフィッティングする。
 得られたバックグラウンドを除いて$N_U'=N_U-BG_U, N_D'=N_D-BG_D$とし、$\alpha$を変えて非対称度\eqref{eq: asymmetry}を計算する。
+ただし時間原点を揃える必要があるため、
+\begin{equation}
+    \label{eq: method: fit asymmetry}
+    \mathscr{A}(\alpha,t_{offset})
+    =
+    \frac{\alpha N_D'(t+t_{offset})-N_U'(t)}{\alpha N_D'(t+t_{offset})+N_U'(t)}
+\end{equation}
+の$\cos$によるフィッティングが最適なものを探す。
 % alphaっていくつおきに変えたっけ？
 各$\alpha$に対して$\mathscr{A}$を$A\cos(2\pi ft)$でフィッティングし、このフィッティングの$\chi^2$の上側累積確率が低くなる$\alpha$における$f$を振動数の測定値とする。
 
@@ -315,6 +347,7 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
 
 
 \section{結果・考察}
+
 \subsection{ミュオンの寿命}
 
 測定データを図\ref{fig: result: CaCO3}に掲げる。
@@ -348,18 +381,43 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
     \label{table: result: life}
 \end{table}
 
+% 考察。特に負ミュオン
+
 \subsection{スピン偏極}
 
+測定結果に\eqref{eq: method: rough fitting of spin polarization by exp}でフィッティングしたものを図に掲げる。
+磁場をかけることでカウントは\eqref{eq: N under Larmor}に従うはずであり\eqref{eq: method: rough fitting of spin polarization by exp}によるフィッティングは本来妥当でないが、この操作はバックグラウンドを差し引くためのものなので、$BG_U$の標準偏差及び$\chi^2$の上側累積確率などフィッティングの信頼性は特に留意しない。
+各変数は表\ref{table: result: parameters of result with B fit with exp}のようになる。
+
+\begin{table}
+    \centering
+    \caption{\eqref{eq: method: rough fitting of spin polarization by exp}によってフィッティングしたときの変数値}
+    \begin{tabular}[]{lrr}
+        \toprule
+        $N_U^0$ & $4.63817e+02\:\pm8.72257e+00$
+        \\
+        $\tau_U$ & $2.07050e+03\:\pm3.18642e+01$
+        \\
+        $BG_U$ & $6.39559e+00\:\pm2.74083e-01$
+        \\
+        \midrule
+        $N_D^0$ & $2.14776e+02\:\pm6.68531e+00$
+        \\
+        $\tau_D$ & $2.00158e+03\:\pm5.62010e+01$
+        \\
+        $BG_D$ & $8.27831e+00\:\pm2.91137e-01$
+        \\
+        \bottomrule
+    \end{tabular}
+    \label{table: result: parameters of result with B fit with exp}
+\end{table}
+
+次いで\eqref{eq: asymmetry}が適当な$\alpha$で$\cos\omega t$に比例する形を取ることを踏まえ、$\alpha$を調節して
+
+この際、UとDで時間原点が揃うように
 
 
 \appendix
-\setcounter{section}{0}
-\setcounter{equation}{1}
-\setcounter{figure}{1}
-\setcounter{table}{1}
-\renewcommand{\theequation}{\Alph{section}.\arabic{equation} }
-\renewcommand{\thefigure}{\Alph{section}.\arabic{equation} }
-\renewcommand{\thetable}{\Alph{section}.\arabic{equation} }
 
 
 \section{論理回路}
