@@ -4,7 +4,7 @@ void expFit()
     gStyle->SetOptFit(0000);
     gStyle->SetFuncWidth(2);
 
-    const char *fp = "../../data/4013.root";
+    const char *fp = "../../../data/4013.root";
     TFile *file = new TFile(fp);
     TH1D *hu;
     TH1D *hd;

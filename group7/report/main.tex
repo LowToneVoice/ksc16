@@ -6,6 +6,7 @@
 \usepackage{booktabs}
 % unit and No.
 \usepackage{siunitx}
+\sisetup{separate-uncertainty=true}
 % calligraphy
 \usepackage{bm}
 \usepackage{mathrsfs}
@@ -25,33 +26,33 @@
 \usetikzlibrary{circuits.logic.US}
 \usetikzlibrary{positioning, fit}
 % eq, fig, table number
-\makeatletter
-    % reference to <section>.<ref>
-    \renewcommand{\theequation}{\thesection.\arabic{equation}}
-    \renewcommand{\thefigure}{\thesection.\arabic{figure}}
-    \renewcommand{\thetable}{\thesection.\arabic{table}}
+% \makeatletter
+%     % reference to <section>.<ref>
+%     \renewcommand{\theequation}{\thesection.\arabic{equation}}
+%     \renewcommand{\thefigure}{\thesection.\arabic{figure}}
+%     \renewcommand{\thetable}{\thesection.\arabic{table}}
 
-    % reset references when renew section
-    \@addtoreset{equation}{section}
-    \@addtoreset{figure}{section}
-    \@addtoreset{table}{section}
+%     % reset references when renew section
+%     \@addtoreset{equation}{section}
+%     \@addtoreset{figure}{section}
+%     \@addtoreset{table}{section}
 
-    % for appendix
-    % cf. https://geniusium.hatenablog.com/entry/2022/02/08/074315
-    \renewcommand{\appendix}{\par
-        % renew section No.
-        \setcounter{section}{0}
-        \setcounter{subsection}{0}
-        \gdef\presectionname{\appendixname}
-        \gdef\postsectionname{}
-        \gdef\thesection{\presectionname\@Alph\c@section\postsectionname}
-        \gdef\thesubsection{\@Alph\c@section.\@arabic\c@subsection}
-        % reference styles
-        \renewcommand{\theequation}{\@Alph\c@section.\arabic{equation}}%
-        \renewcommand{\thefigure}{\@Alph\c@section.\arabic{figure}}%
-        \renewcommand{\thetable}{\@Alph\c@section.\arabic{table}}%
-    }
-\makeatother
+%     % for appendix
+%     % cf. https://geniusium.hatenablog.com/entry/2022/02/08/074315
+%     \renewcommand{\appendix}{\par
+%         % renew section No.
+%         \setcounter{section}{0}
+%         \setcounter{subsection}{0}
+%         \gdef\presectionname{\appendixname}
+%         \gdef\postsectionname{}
+%         \gdef\thesection{\presectionname\@Alph\c@section\postsectionname}
+%         \gdef\thesubsection{\@Alph\c@section.\@arabic\c@subsection}
+%         % reference styles
+%         \renewcommand{\theequation}{\@Alph\c@section.\arabic{equation}}%
+%         \renewcommand{\thefigure}{\@Alph\c@section.\arabic{figure}}%
+%         \renewcommand{\thetable}{\@Alph\c@section.\arabic{table}}%
+%     }
+% \makeatother
 % displaying codes
 % cf. https://turgure.hatenablog.com/entry/2016/08/19/183501
 \lstnewenvironment{mylisting}[1][]
@@ -146,6 +147,7 @@ Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電�
 
 
 \subsection{負ミュオンの原子核捕獲}
+\label{sec: theory: negative muon capture}
 
 一部の$\mu^-$は物質中に侵入すると原子核のCoulombポテンシャルにとらわれミュオン原子を形成する。
 この$\mu^-$は特性X線やオージェ電子を放出して次第に低準位へ遷移し、やがて原子核へ落ち込む。
@@ -201,49 +203,57 @@ Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電�
 \ref{sec: theory: decay of muon}に基づけば、磁場をかけない状態で運動量の比較的大きいミュオンを多くトラップする試料を上下2つの検出器で挟むと上側で(陽)電子をより多く検出する。
 しかし上下の検出数の差がスピン偏極によるものなのか検出器の特性によるものなのかを判断することは難しい。
 % 実際の実験装置とは別に試料上下に検出器を置いている図が欲しい。概念的なものなのでTはいらない。
-そこで偏極の検出では一般にLarmor歳差運動を用いる。
-磁気回転比$\gamma$のミュオンスピンに磁場$\bm{B}$がかかると、
+そこで偏極の検出では一般にミュオンスピン回転(µSR)と呼ばれるLarmor歳差運動を用いた方法を採る。
+
+磁気回転比$\gamma$のミュオンに磁場$\bm{B}$がかかったとき、
 \begin{equation}
     \label{eq: Larmor precession}
     \bm{\omega}=\gamma\bm{B}
 \end{equation}
-の角速度で歳差運動する。
+でスピンは際差運動する。
+したがって\ref{sec: theory: decay of muon}によれば、放出(陽)電子の角度分布も磁場を軸に回転し、粒子の検出数が崩壊時間によって変化する(図\ref{fig: theory: N under Larmor})。
 
-上下の検出器でのカウントをそれぞれ$N_U, N_D$とする。
-\ref{sec: theory: decay of muon}で述べた$\mu^-$の原子核捕獲も考慮すると、以下の式が成り立つと考えられる。
+\begin{figure}
+    \centering
+    \input{../img/models/exp-vib.tex}
+    \caption[]{Larmor歳差運動下で予想される粒子検出数。破線は磁場をかけない場合。}
+    \label{fig: theory: N under Larmor}
+\end{figure}
+
+上下の検出器でのカウントをそれぞれ$N_U, N_D$とし、\eqref{eq: Larmor precession}の$\bm{\omega}$の大きさを$\omega$とすれば、\ref{sec: theory: negative muon capture}で述べた$\mu^-$の原子核捕獲も考慮して、以下の式が成り立つと考えられる。
 \begin{equation}
     \label{eq: N under Larmor}
     \begin{split}
-        N_U
+        N_U(t)
         &=
-        N_{U0}^+(1+AP^+\cos\omega t)e^{-t/\tau_+}
+        N_{U0}^+(1+P^+\cos\omega t)e^{-t/\tau_+}
         +
-        N_{U0}^-(1+AP^-\cos\omega t)e^{-t/\tau_-}
+        N_{U0}^-(1+P^-\cos\omega t)e^{-t/\tau_-}
         +
         BG_D
         \\
-        N_D
+        N_D(t)
         &=
-        N_{D0}^+(1-AP^+\cos\omega t)e^{-t/\tau_+}
+        N_{D0}^+(1-P^+\cos\omega t)e^{-t/\tau_+}
         +
-        N_{D0}^-(1-AP^-\cos\omega t)e^{-t/\tau_-}
+        N_{D0}^-(1-P^-\cos\omega t)e^{-t/\tau_-}
         +
         BG_D
     \end{split}
 \end{equation}
-ここで$\tau_-$は原子核捕獲のため一般に小さく、$\mu^-$は試料に侵入すると周囲の電子との間で相互作用してスピン偏極が破れる。
+ここで$\tau_-$は原子核捕獲のため一般に小さく、$t\gg\tau_-$にて\eqref{eq: N under Larmor}各式の第2項は無視できる。
+加えて$\mu^-$は試料に侵入すると周囲の電子との間で相互作用してスピン偏極が破れるので$N_{U0}^-,N_{D0}^-$は小さい。
 % 文献ほしい
-このため$t\gg\tau_-$として\eqref{eq: N under Larmor}各式の第2項は無視できる。
-$N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って、
+\eqref{eq: N under Larmor}各式の第2項を無視すれば、$N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って、
 \begin{equation}
     \label{eq: asymmetry}
     \mathscr{A}
     =
-    \frac{\alpha N_U'-N_D'}{\alpha N_U'+N_D'}
+    \frac{\alpha N_D'-N_U'}{\alpha N_D'+N_U'}
     =
-    \frac{(\alpha N_{U0}^+-N_{D0}^+)+(\alpha N_{U0}^++N_{D0}^+)AP^+\cos\omega t}{(\alpha N_{U0}^++N_{D0}^+)+(\alpha N_{U0}^+-N_{D0}^+)AP^+\cos\omega t}
+    \frac{(\alpha N_{D0}^+-N_{U0}^+)+(\alpha N_{D0}^++N_{U0}^+)P^+\cos\omega t}{(\alpha N_{D0}^++N_{U0}^+)+(\alpha N_{D0}^+-N_{U0}^+)P^+\cos\omega t}
 \end{equation}
-と表される非対称度は、$\alpha N_{U0}^+-N_{D0}^+=0$なる$\alpha$にて角振動数$\omega$の三角関数となる。
+と表される非対称度$\mathscr{A}$は、$\alpha N_{D0}^+-N_{U0}^+=0$なる$\alpha$にて角振動数$\omega$の三角関数となる。
 
 
 \section{実験・解析方法}
@@ -264,7 +274,7 @@ $N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って、
 PSc+PMTは上層から順にT,U,Dとし、各層でシンチレーション光を別々に検出できるようにする。
 
 宇宙線及び崩壊粒子
-\footnote{$\mu^-$の原子核捕獲で生じる中性子も速度が〜となってPScの検出下限〜を上回る。}
+\footnote{$\mu^-$の原子核捕獲で生じる中性子も速度が〜となってPScの検出下限〜を上回るので、これには中性子も含む。}
 % 文献ほしい。崩壊中性子の速度とPSc内部の光速
 の飛程を考慮すると、以下の事象が考えられる。
 \renewcommand{\theenumi}{(\alph{enumi})}
@@ -331,19 +341,21 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
     \end{split}
 \end{equation}
 でフィッティングする。
-得られたバックグラウンドを除いて$N_U'=N_U-BG_U, N_D'=N_D-BG_D$とし、$\alpha$を変えて非対称度\eqref{eq: asymmetry}を計算する。
-ただし時間原点を揃える必要があるため、
+得られたバックグラウンドを除いて$N_U'=N_U-BG_U, N_D'=N_D-BG_D$とし、$\alpha$を$0.01$ずつ変えて非対称度\eqref{eq: asymmetry}を計算する。
+ただし時間原点を揃える必要があるため、回路に組み込んだ遅延を考慮して、
 \begin{equation}
     \label{eq: method: fit asymmetry}
     \mathscr{A}(\alpha,t_{offset})
     =
     \frac{\alpha N_D'(t+t_{offset})-N_U'(t)}{\alpha N_D'(t+t_{offset})+N_U'(t)}
+    ,
+    \qquad
+    t_{offset}=-\SI{30}{\nano\second}
 \end{equation}
-の$\cos$によるフィッティングが最適なものを探す。
-% alphaっていくつおきに変えたっけ？
-各$\alpha$に対して$\mathscr{A}$を$A\cos(2\pi ft)$でフィッティングし、このフィッティングの$\chi^2$の上側累積確率が低くなる$\alpha$における$f$を振動数の測定値とする。
+の$A\cos(2\pi ft)$によるフィッティングが最適なものを探す。
+フィッティングの$\chi^2$が最小になる$\alpha$における$f$を振動数の測定値とする。
 
-検証のため測定値$f$と\eqref{eq: Larmor precession}から磁場の強さ$B$を逆算して、ソレノイドコイルの設計上期待される値$B_{design}=\SI{20}{\milli\tesla}$と比較する。
+検証のため測定値$f$と\eqref{eq: Larmor precession}から磁場の強さ$B$を逆算して、ソレノイドコイルの設計上期待される値$B_{design}=\SI{2}{\milli\tesla}$と比較する。
 
 
 \section{結果・考察}
@@ -412,9 +424,26 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
     \label{table: result: parameters of result with B fit with exp}
 \end{table}
 
-次いで\eqref{eq: asymmetry}が適当な$\alpha$で$\cos\omega t$に比例する形を取ることを踏まえ、$\alpha$を調節して
+次いで$\alpha$を$0.01$ずつ変えて非対称度\ref{eq: method: fit asymmetry}を計算し、$A\cos(2\pi ft)$にフィッティングさせたときの$\chi^2$値を図\ref{fig: result: alpha and chi square}に示す。
+極値は$(\alpha,\chi^2)=(2.23, 0.85)$であり、上側累積確率は$74.7\%$である。
+そこで$\alpha=2.23$を採用して\eqref{eq: method: fit asymmetry}を描き$\cos$でフィッティングすると図\ref{fig: result: asymmetry}の通りになる。
 
-この際、UとDで時間原点が揃うように
+\begin{figure}
+    \centering
+    \includegraphics[width=8cm]{../analysis/Larmor/ver2/alpha-chi2.pdf}
+    \caption{$\alpha$を変えて非対称度\eqref{eq: method: fit asymmetry}を三角関数でフィッティングしたときの$\chi^2$値}
+    \label{fig: result: alpha and chi square}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=12cm]{../analysis/Larmor/ver2/asymmetry.pdf}
+    \caption{非対称度$\mathscr{A}$と$\cos$によるフィッティング}
+    \label{fig: result: asymmetry}
+\end{figure}
+
+これより振動周期$T=\SI{4.217\pm0.517}{\second}$を得て、\eqref{eq: Larmor precession}より磁場を計算すると$B=\SI{1.75+-0.22}{\milli\tesla}$となる。
+$B_{design}=\SI{2}{\milli\tesla}$と比較して、この結果が妥当であることが確かめられる。
 
 
 \appendix
@@ -485,31 +514,49 @@ void life()
 \subsection{スピン偏極測定}
 % 各コードで何が出てくるか、どうやって運用するかを記述。
 まずexpFit.Cで\eqref{eq: method: rough fitting of spin polarization by exp}のフィッティングを行いバックグラウンドを求める。
+\eqref{eq: method: fit asymmetry}の$\cos$によるフィッティングの$\chi^2$値を複数の$\alpha$で計算する。
+$\chi^2$が極小となる$\alpha$を選び\eqref{eq: method: fit asymmetry}のフィッティングパラメーターを結果とする。
 
 \begin{mylisting}[language=c++,caption=expFit.C]
 void expFit()
 {
+    gStyle->SetOptStat(0000);
+    gStyle->SetOptFit(0000);
+    gStyle->SetFuncWidth(2);
+
+    const char *fp = "../../data/4013.root";
+    TFile *file = new TFile(fp);
+    TH1D *hu;
+    TH1D *hd;
+    TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
+    file->GetObject("single_ch0000_0", hu);
+    file->GetObject("single_ch0001_0", hd);
     hu->Rebin(100);
     hd->Rebin(100);
 
-    TF1 *fd = new TF1("fu", "[ 0 ] * exp( -(x / [ 1 ]) + [ 2 ]) +  [ 3 ] ");
-    TF1 *fd = new TF1("fd", "[ 0 ] * exp( -(x / [ 1 ]) + [ 2 ]) +  [ 3 ] ");
-    fu->SetParameters( 200.0, 2000.0, 0.0, 0.0);
-    fu->SetParNames("N_U", "#tau_U", "t0_U", "BG_U");
-    fd->SetParameters( 100.0, 2000.0, 0.0, 0.0);
-    fd->SetParNames("N_D", "#tau_D", "t0_D", "BG_D");
-    hu->Fit("fu", "", "", 300, 22000);
+    // fitting curve
+    TF1 *fu = new TF1("fu", "[0] * exp(-x / [1]) + [2]");
+    TF1 *fd = new TF1("fd", "[0] * exp(-x / [1]) + [2]");
+    fu->SetParameters(200.0, 2000.0, 0.0);
+    fu->SetParNames("N_U", "#tau_U", "BG_U");
+    fd->SetParameters(100.0, 2000.0, 0.0);
+    fd->SetParNames("N_D", "#tau_D", "BG_D");
+    hu->Fit("fu", "", "", 300, 20000);
     hu->SetLineWidth(2.0);
-    hd->Fit("fd", "", "", 300, 22000);
+    hd->Fit("fd", "", "", 300, 20000);
     hd->SetLineWidth(2.0);
 
+    // graph and axis label
+    hu->SetTitle("Cu, Al with B 33h;time [ns];count;");
+    hd->SetTitle("Cu, Al with B 33h;time [ns];count;");
     hd->Draw();
     hd->SetLineColor(kRed);
-    hd->GetXaxis()->SetRangeUser(0,25000);
-    hd->GetYaxis()->SetRangeUser(0.9,500);
+    hd->GetXaxis()->SetRangeUser(0, 20000);
+    hd->GetYaxis()->SetRangeUser(0.9, 500);
     hu->Draw("same");
-    hu->GetXaxis()->SetRangeUser(0,25000);
-    hu->GetYaxis()->SetRangeUser(0.9,500);
+    hu->GetXaxis()->SetRangeUser(0, 20000);
+    hu->GetYaxis()->SetRangeUser(0.9, 500);
+    // y axis to log scale
     c1->SetLogy();
 }
 \end{mylisting}
@@ -517,108 +564,105 @@ void expFit()
 \begin{mylisting}[language=c++,caption=findPar.C]
 void findPar()
 {
-    TH1D* hu;
-    TH1D* hd;
-    const char *fp = "4013.root";
-    TFile *file = new  TFile(fp);
-    file->GetObject("...", hu);
-    file->GetObject("...", hd);
-
-    TH1D* h3;
-    TH1D* h4;
-
-    TCanvas *c1= new TCanvas("c1","c1", 600, 600);
-
-    // copy the hists
-    TH1D* hu_init;
-    TH1D* hd_init;
-    hu_init = (TH1D*)hu->Clone();
-    hd_init = (TH1D*)hd->Clone();
-
-    int i,j,k;
+    TH1D *h1;
+    TH1D *h2;
+    TH1D *h3;
+    TH1D *h4;
+    TH1D *h1_init;
+    TH1D *h2_init;
+    const char *fp = "../../../data/4013.root";
+    TFile *file = new TFile(fp);
+    // parameters
+    int i, j, k;
+    int offset = -30;
+    double alpha;
+    // results
     Double_t erfun;
     Double_t ndf;
     Double_t prob;
-
-    // parameters
-    int offset;
-    double alpha;
-
     // BGs
-    const double bg_1 = ...;
-    const double bg_2 = ...;
+    const double bg_u = 6.39559e+00;
+    const double bg_d = 8.27831e+00;
+    // output files
+    std::ofstream outputfile_chi2("param_chi2.dat");
+    std::ofstream outputfile_prob("param_prob.dat");
+    // hists
+    file->GetObject("single_ch0000_0", h1);
+    file->GetObject("single_ch0001_0", h2);
+    h1_init = (TH1D *)h1->Clone();
+    h2_init = (TH1D *)h2->Clone();
 
-    ofstream outputfile_chi2("param_chi2.dat");
-    ofstream outputfile_prob("param_prob.dat");
-    for(k=0; k < 50; k++){
-        for(j=0; j < 40; j++){
+    for (i = 0; i < 500; i++)
+    {
+        alpha = 0.1 + i * 0.01;
 
-            offset = -200 + 10 * j;
-            alpha = 0.1 + k * 0.1;
+        h1 = (TH1D *)h1_init->Clone();
+        h2 = (TH1D *)h2_init->Clone();
 
-            hu = (TH1D*)hu_init->Clone();
-            hd = (TH1D*)hd_init->Clone();
-
-            // move hd left as long as offset
-            for(i=0; i < hd->GetXaxis()->GetNbins(); i++){
-                if (offset + i < 0){
-                    hd->SetBinContent(i, 0);
-                }else{
-                    hd->SetBinContent(i, (hd_init->GetBinContent(i + offset)));
-                }
+        // move h2 left for offset
+        for (k = 0; k < h2->GetXaxis()->GetNbins(); k++)
+        {
+            if (offset + k < 0)
+            {
+                h2->SetBinContent(k, 0);
             }
-
-            // rebin
-            hu->Rebin(100);
-            hd->Rebin(100);
-
-            // for error evaluation
-            hu->Sumw2();
-            hd->Sumw2();
-
-            // deleting BGs
-            for(i=0; i < hu->GetXaxis()->GetNbins(); i++){
-                hu->SetBinContent(i, hu->GetBinContent(i) - bg_1);
+            else
+            {
+                h2->SetBinContent(k, h2_init->GetBinContent(k + offset));
             }
-
-            for(i=0; i < hd->GetXaxis()->GetNbins(); i++){
-                hd->SetBinContent(i, (hd->GetBinContent(i) - bg_2));
-            }
-
-
-            h3 = (TH1D*)hu->Clone();
-            h4 = (TH1D*)hd->Clone();
-
-            //hd times alpha
-            for(i=0; i < hd->GetXaxis()->GetNbins(); i++){
-                hd->SetBinContent(i, (h4->GetBinContent(i)) * alpha);
-                hd->SetBinError(i, (h4->GetBinError(i)) * alpha);
-            }
-
-            // D-U/D+U
-            h3 = (TH1D*)hu->Clone();
-            h4 = (TH1D*)hd->Clone();
-            h4->Add(h3, -1);
-            hd->Add(hu, 1);
-            h4->Divide(hd);
-
-            // fit by cos
-            TF1 *f = new TF1("f", "[0]*cos(2*TMath::Pi()*(x - [2])/[1])");
-            f->SetParNames("A", "T", "t_offset");
-            f->SetParameters(0.1, 3500, 0.0);
-            f->SetParLimits(1, 2500, 4500);
-            f->SetParLimits(0, 0.01, 0.5);
-            f->SetParLimits(2, -500.0, 500.0);
-            h4->Fit("f", "", "", 300, 5000);
-
-            // output chi^2
-            erfun = h4->GetFunction("f")->GetChisquare();
-            ndf = h4->GetFunction("f")->GetNDF();
-            prob = h4->GetFunction("f")->GetProb();
-            outputfile_chi2 << erfun / ndf << " ";
-            outputfile_prob << prob << " ";
         }
-        // change the lines of output
+
+        // rebin
+        h1->Rebin(100);
+        h2->Rebin(100);
+
+        // for error evaluation
+        h1->Sumw2();
+        h2->Sumw2();
+
+        // delete BGs
+        for (k = 0; k < h1->GetXaxis()->GetNbins(); k++)
+        {
+            h1->SetBinContent(k, h1->GetBinContent(k) - bg_u);
+        }
+        for (k = 0; k < h2->GetXaxis()->GetNbins(); k++)
+        {
+            h2->SetBinContent(k, h2->GetBinContent(k) - bg_d);
+        }
+        h3 = (TH1D *)h1->Clone();
+        h4 = (TH1D *)h2->Clone();
+
+        // h2 times alpha
+        for (k = 0; k < h2->GetXaxis()->GetNbins(); k++)
+        {
+            h2->SetBinContent(k,  (h4->GetBinContent(k) * alpha));
+            h2->SetBinError(k, (h4->GetBinError(k) * alpha));
+        }
+
+        // D-U/D+U
+        h3 = (TH1D *)h1->Clone();
+        h4 = (TH1D *)h2->Clone();
+        h4->Add(h3, -1);
+        h2->Add(h1);
+        h4->Divide(h2);
+
+        // fitting by cos
+        TF1 *f = new TF1("f", "[0] * cos(2 * TMath::Pi() * (x - [2]) / [1])");
+        f->SetParNames("A", "T", "t_offset");
+        f->SetParameters(.1, 3500, .0);
+        f->SetParLimits(0, .01, .5);
+        f->SetParLimits(1, 2500, 4500);
+        f->SetParLimits(2, -500., 500.);
+        h4->Fit("f", "", "", 300, 5000);
+
+        // output chi^2/ndf and prob
+        erfun = h4->GetFunction("f")->GetChisquare();
+        ndf = h4->GetFunction("f")->GetNDF();
+        prob = h4->GetFunction("f")->GetProb();
+        outputfile_chi2 << alpha << " " << erfun / ndf << " ";
+        outputfile_prob << alpha << " " << prob << " ";
+
+        // change the lines of
         outputfile_chi2 << endl;
         outputfile_prob << endl;
     }
@@ -627,69 +671,95 @@ void findPar()
 }
 \end{mylisting}
 
-\begin{mylisting}[language=python,caption=plotError.py]
-import numpy as np
-from matplotlib import pyplot as plt
+\begin{mylisting}[language=c++,caption=fitAsym.C]
+void fitAsym()
+{
+    gStyle->SetOptStat(1111);
+    gStyle->SetOptFit(1111);
+    gStyle->SetFuncWidth(2);
 
-# define a graph
-fig = plt.figure(figsize=(20,5))
-# define subgraphs and arrange
-ax1 = fig.add_subplot(1,2,1)
-ax2 = fig.add_subplot(1,2,2)
+    TH1D *h1;
+    TH1D *h2;
+    TH1D *h3;
+    TH1D *h4;
+    TH1D *h1_init;
+    TH1D *h2_init;
+    const char *fp = "../../../data/4013.root";
+    TFile *file = new TFile(fp);
+    // parameters
+    int i;
+    int offset = -30;
+    double alpha = 2.23;
+    // BGs
+    const double bg_u = 6.39559e+00;
+    const double bg_d = 8.27831e+00;
+    // hists
+    file->GetObject("single_ch0000_0", h1);
+    file->GetObject("single_ch0001_0", h2);
+    h1_init = (TH1D *)h1->Clone();
+    h2_init = (TH1D *)h2->Clone();
 
-# the 1st graph
-ax = ax1
-with open('param_chi2.dat') as f:
-    ar = np.loadtxt(f);
+    // move h2 left for offset
+    for (i = 0; i < h2->GetXaxis()->GetNbins(); i++)
+    {
+        if (offset + i < 0)
+        {
+            h2->SetBinContent(i, 0);
+        }
+        else
+        {
+            h2->SetBinContent(i, h2_init->GetBinContent(i + offset));
+        }
+    }
 
-ar = ar[:,:]
-ax.set_title(f"chi^2/ndf")
-ax.set_xlabel('t_offset')
-ax.set_ylabel('alpha')
-extent = [
-    -200,
-    200,
-    5.1,
-    0.1
-]
-aspect = abs(300 / 5.0)
-im = ax.imshow(
-    ar,
-    cmap='jet',
-    # vmin=0, vmax=100,
-    extent=extent,
-    aspect=aspect,
-)
-colorbar = fig.colorbar(im, ax=ax1, label='colorbar')
+    // rebin
+    h1->Rebin(100);
+    h2->Rebin(100);
 
-# 2nd graph
-with open('param_prob.dat', "r") as f:
-    ar = np.loadtxt(f);
+    // for error evaluation
+    h1->Sumw2();
+    h2->Sumw2();
 
-ar = ar[:,:]
+    // delete BGs
+    for (i = 0; i < h1->GetXaxis()->GetNbins(); i++)
+    {
+        h1->SetBinContent(i, h1->GetBinContent(i) - bg_u);
+    }
+    for (i = 0; i < h2->GetXaxis()->GetNbins(); i++)
+    {
+        h2->SetBinContent(i, h2->GetBinContent(i) - bg_d);
+    }
+    h3 = (TH1D *)h1->Clone();
+    h4 = (TH1D *)h2->Clone();
 
-ax2.set_title(f"prob")
-ax2.set_xlabel('t_offset')
-ax2.set_ylabel('alpha')
-extent = [
-    -200,
-    200,
-    5.1,
-    0.1
-]
-aspect = abs(300 / 5.0)
-im = ax2.imshow(
-    ar,
-    cmap='jet',
-    # vmin=0, vmax=100,
-    extent=extent,
-    aspect=aspect,
-)
-colorbar = fig.colorbar(im, ax=ax2, label='colorbar')
-plt.grid(True)
-# save
-# plt.savefig("findparam_wide_5.png")
-plt.show()
+    // h2 times alpha
+    for (i = 0; i < h2->GetXaxis()->GetNbins(); i++)
+    {
+        h2->SetBinContent(i, h4->GetBinContent(i) * alpha);
+        h2->SetBinError(i, h4->GetBinError(i) * alpha);
+    }
+
+    // D-U/D+U
+    h3 = (TH1D *)h1->Clone();
+    h4 = (TH1D *)h2->Clone();
+    h4->Add(h3, -1);
+    h2->Add(h1);
+    h4->Divide(h2);
+
+    // fitting by cos
+    TF1 *f = new TF1("f", "[0] * cos(2 * TMath::Pi() * (x - [2]) / [1])");
+    f->SetParNames("A", "T", "t_offset");
+    f->SetParameters(.1, 3500, .0);
+    f->SetParLimits(0, .01, .5);
+    f->SetParLimits(1, 2500, 4500);
+    f->SetParLimits(2, -500., 500.);
+    h4->Fit("f", "", "", 300, 5000);
+
+    h4->SetTitle("Asymmetry;time [ns];A");
+    h4->Draw();
+    h4->GetXaxis()->SetRangeUser(0, 10000);
+    h4->GetYaxis()->SetRangeUser(-.4, .7);
+}
 \end{mylisting}
 
 
