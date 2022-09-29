@@ -1,0 +1,13 @@
+\begin{tikzpicture}[scale=1.5]
+    \coordinate(Dleftdown)at(0,.25);
+    \coordinate(Pleftdown)at(0,.6);
+    \coordinate(Uleftdown)at(0,1.2);
+    \draw[thick](Dleftdown)rectangle++(2.5,.25);
+    \draw[thick](Uleftdown)rectangle++(2.5,.25);
+    \filldraw[fill=lightgray, thick](Pleftdown)--++(2.5,0)--++(0,.5)--++(-2.5,0)--++(0,-.5);
+    \draw[-Stealth, very thick]($(Pleftdown)+(.5,.25)$)--++(.4,.2)node[anchor=west]{$\bm{s}$};
+    \draw[-Stealth, very thick]($(Pleftdown)+(1.5,.25)$)--++(.4,.2)node[anchor=west]{$\bm{s}$};
+    \draw[-Stealth, very thick]($(Pleftdown)+(-.2,.25)$)--++(2.9,0)node[anchor=west]{$\bm{B}$};
+    \draw[dashed]($(Pleftdown)+(.9,.25)$)circle[x radius=.1,y radius=.2];
+    \draw[dashed]($(Pleftdown)+(1.9,.25)$)circle[x radius=.1,y radius=.2];
+\end{tikzpicture}

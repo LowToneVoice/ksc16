@@ -1,0 +1,11 @@
+VS Code で ROOT CERN を使いたいときは
+#include<iostream>
+#include<TROOT.h>
+#include<TFile.h>
+#include<TF1.h>
+#include<TH1.h>
+#include<TCanvas.h>
+#include<TTree.h>
+#include<TStyle.h>
+をインクルードした上でパスを通すと厄介な警告が出なくなる。
+cf. https://qiita.com/tera_phys/items/4379609c9c455387e6f1

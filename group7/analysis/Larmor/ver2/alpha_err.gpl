@@ -1,0 +1,6 @@
+set term pdfcairo
+set output "alpha-chi2.pdf"
+set nokey
+set xlabel "alpha"
+set ylabel "chi^2"
+plot "param_chi2.dat" w l

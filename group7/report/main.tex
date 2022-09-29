@@ -6,8 +6,10 @@
 \usepackage{booktabs}
 % unit and No.
 \usepackage{siunitx}
+\sisetup{separate-uncertainty=true}
 % calligraphy
 \usepackage{bm}
+\usepackage{color}
 \usepackage{mathrsfs}
 % hyperlink
 \usepackage{hyperref}
@@ -24,13 +26,27 @@
 \usetikzlibrary{intersections,calc,arrows.meta}
 \usetikzlibrary{circuits.logic.US}
 \usetikzlibrary{positioning, fit}
-% eq, fig, table number
-\renewcommand{\theequation}{\thesection.\arabic{equation}}
-\renewcommand{\thefigure}{\thesection.\arabic{figure}}
-\renewcommand{\thetable}{\thesection.\arabic{table}}
+% for writing codes
+\lstnewenvironment{mylisting}[1][]
+    {\lstset{
+        breaklines=true,
+        frame=single,
+        basicstyle=\ttfamily,
+        numbers=left,
+        numbersep=10pt,
+        tabsize=4,
+        extendedchars=true,
+        xleftmargin=24pt,
+        framexleftmargin=24pt,
+        #1
+    }
+}{}
+% no page no.
+\pagestyle{empty}
 
 \title{宇宙線観察から学ぶ粒子の崩壊とスピン回転
 }
+
 \begin{document}
 \maketitle
 
@@ -59,12 +75,24 @@
     &\pi^-\to\mu^-+\bar{\nu}_\mu
 \end{align*}
 と崩壊する。
-% 以下全ての反応について、ファインマンダイアグラム描けそうだったら書いて欲しい。必要そうならの話だけど。
 
-ニュートリノのヘリシティは負、反ニュートリノは正であるから、角運動量保存よりパイオン静止系にて$\mu^+$のスピンは運動量と逆、$\mu^-$は同じ向きとなる。
-パイオンの崩壊は主に電磁シャワー内部で生じることを考慮すると、実験室系にて地表に降り注ぐ向きの運動量が大きい$\mu^+$はスピンが下向き、$\mu^-$はスピンが上向きになる割合が多くなると考えられる。
+ニュートリノのヘリシティは負、反ニュートリノは正であるから、角運動量保存よりパイオン静止系にて$\mu^+$のスピンは運動量と逆、$\mu^-$は同じ向きとなる(図\ref{fig: pion decay})。
+パイオンの崩壊は主に電磁シャワー内部で生じることを考慮すると、図\ref{fig: muon shower}のように実験室系にて地表に降り注ぐ向きの運動量が大きい$\mu^+$はスピンが下向き、$\mu^-$はスピンが上向きになる割合が多くなると考えられる。
 % 定量的なことを言いたい
-% 図が欲しい気もする
+
+\begin{figure}
+    \centering
+    \input{../img/models/pion_decay.tex}
+    \caption{$\pi^+$の崩壊}
+    \label{fig: pion decay}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \input{../img/models/muon_shower.tex}
+    \caption{地表に降り注ぐ荷電粒子とスピン}
+    \label{fig: muon shower}
+\end{figure}
 
 
 \subsection{ミュオンの崩壊}
@@ -89,21 +117,21 @@ Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電�
     )
     e^{-\gamma t}\dd{y}\dd{\Omega}
 \end{equation*}
-積分して、
-\begin{equation*}
-    N=
-    \iint N_0\frac{\lambda}{4\pi}
-    A_0(1+aP\cos\theta)e^{-\gamma t}
-    \dd{y}\dd{\Omega}
-\end{equation*}
-を得る。
-% 図ほしい。できれば計算で求めたやつ。
+簡単な場合に図示すると図\ref{fig: muon decay distrib.}のようになる。
 すなわち、$\mu^+$はスピンと同じ向きに陽電子を、$\mu^-$はスピンと逆向きに電子を出しやすい。
+
+\begin{figure}
+    \centering
+    \input{../img/models/muon_decay.tex}
+    \caption{$\mu^\pm$のスピン(矢印)と崩壊にて放出される$e^+$(実線)及び$e^+$(破線)の分布}
+    \label{fig: muon decay distrib.}
+\end{figure}
 
 \ref{sec: theory: generation of muon}を合わせて踏まえると、地表に降り注ぐミュオンのうち運動量の大きいものは上向きに、運動量の小さいものは下向きに(陽)電子を多く放出する。
 
 
 \subsection{負ミュオンの原子核捕獲}
+\label{sec: theory: negative muon capture}
 
 一部の$\mu^-$は物質中に侵入すると原子核のCoulombポテンシャルにとらわれミュオン原子を形成する。
 この$\mu^-$は特性X線やオージェ電子を放出して次第に低準位へ遷移し、やがて原子核へ落ち込む。
@@ -113,7 +141,7 @@ Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電�
 \end{equation*}
 
 (陽)電子だけでなく中性子も検出する装置を使うと、$\mu^-$の減衰比には通常の崩壊に加えてこの原子核捕獲の確率も加わるため、見かけの寿命は$\mu^+$に比べて短くなる。
-寿命変化は原子核に依存し、今回使用した試料に含まれる元素では表\ref{table: life of muon}のようになる\cite{Ito Kaji Tabata Yoshiwara}。
+寿命変化は原子核に依存し、今回使用した試料に含まれる元素では表\ref{table: theory: life of muon}のようになる\cite{Ito Kaji Tabata Yoshiwara}。
 
 % もうちょい桁数ほしい
 \begin{table}
@@ -136,7 +164,7 @@ Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電�
         \\
         \bottomrule
     \end{tabular}
-    \label{table: life of muon}
+    \label{table: theory: life of muon}
 \end{table}
 
 % 元素を混ぜた時の寿命についても書きたい
@@ -158,55 +186,102 @@ Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電�
 
 \ref{sec: theory: decay of muon}に基づけば、磁場をかけない状態で運動量の比較的大きいミュオンを多くトラップする試料を上下2つの検出器で挟むと上側で(陽)電子をより多く検出する。
 しかし上下の検出数の差がスピン偏極によるものなのか検出器の特性によるものなのかを判断することは難しい。
-% 実際の実験装置とは別に試料上下に検出器を置いている図が欲しい。概念的なものなのでTはいらない。
+そこで偏極の検出では一般にミュオンスピン回転(µSR)と呼ばれるLarmor歳差運動を用いた方法を採る。
 
-磁気回転比$\gamma$のミュオンスピンに磁場$\bm{B}$がかかると、
+\begin{figure}[b]
+    \centering
+    \input{../img/models/LarmorSpin.tex}
+    \caption{Larmor歳差運動を用いたミュオンスピン検出実験の配置。着色部で表す試料の上下を検出器で挟む。水平に磁場をかけるとスピンが歳差運動し、崩壊の際に放出される粒子の分布が上下で時々刻々と変化する。}
+    \label{fig: Larmor spin}
+\end{figure}
+
+図\ref{fig: Larmor spin}に示すように、磁気回転比$\gamma$のミュオンに磁場$\bm{B}$がかかったとき、
 \begin{equation}
     \label{eq: Larmor precession}
     \bm{\omega}=\gamma\bm{B}
 \end{equation}
-の角速度で歳差運動を行う(Larmor歳差運動)。
-これを使うことで上記の問題が解決できる。
+でスピンは際差運動する。
+したがって\ref{sec: theory: decay of muon}によれば、放出(陽)電子の角度分布も磁場を軸に回転し、粒子の検出数が崩壊時間によって変化する(図\ref{fig: theory: N under Larmor})。
 
-上下の検出器でのカウントをそれぞれ$N_U, N_D$とする。
-\ref{sec: theory: decay of muon}で述べた$\mu^-$の原子核捕獲も考慮すると、以下の式が成り立つと考えられる。
+\begin{figure}
+    \centering
+    \input{../img/models/exp-vib.tex}
+    \caption[]{Larmor歳差運動下で予想される粒子検出数。破線は磁場をかけない場合。}
+    \label{fig: theory: N under Larmor}
+\end{figure}
+
+上下の検出器でのカウントをそれぞれ$N_U, N_D$とし、\eqref{eq: Larmor precession}の$\bm{\omega}$の大きさを$\omega$とすれば、\ref{sec: theory: negative muon capture}で述べた$\mu^-$の原子核捕獲も考慮して、以下の式が成り立つと考えられる。
 \begin{equation}
     \label{eq: N under Larmor}
     \begin{split}
-        N_U
+        N_U(t)
         &=
-        N_{U0}^+(1+AP^+\cos\omega t)e^{-t/\tau_+}
+        N_{U0}^+(1+P^+\cos\omega t)e^{-t/\tau_+}
         +
-        N_{U0}^-(1+AP^-\cos\omega t)e^{-t/\tau_-}
+        N_{U0}^-(1+P^-\cos\omega t)e^{-t/\tau_-}
         +
         BG_D
         \\
-        N_D
+        N_D(t)
         &=
-        N_{D0}^+(1-AP^+\cos\omega t)e^{-t/\tau_+}
+        N_{D0}^+(1-P^+\cos\omega t)e^{-t/\tau_+}
         +
-        N_{D0}^-(1-AP^-\cos\omega t)e^{-t/\tau_-}
+        N_{D0}^-(1-P^-\cos\omega t)e^{-t/\tau_-}
         +
         BG_D
     \end{split}
 \end{equation}
-ここで$\tau_-$は原子核捕獲のため一般に小さく、$\mu^-$は試料に侵入すると周囲の電子との間で相互作用してスピン偏極が破れる。
+ここで$\tau_-$は原子核捕獲のため一般に小さく、$t\gg\tau_-$にて\eqref{eq: N under Larmor}各式の第2項は無視できる。
+加えて$\mu^-$は試料に侵入すると周囲の電子との間で相互作用してスピン偏極が破れるので$N_{U0}^-,N_{D0}^-$は小さい。
 % 文献ほしい
-このため$t\gg\tau_-$にて\eqref{eq: N under Larmor}各式の第2項は無視できる。
-$N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って、
+\eqref{eq: N under Larmor}各式の第2項を無視すれば、$N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って、
 \begin{equation}
     \label{eq: asymmetry}
     \mathscr{A}
     =
-    \frac{\alpha N_U'-N_D'}{\alpha N_U'+N_D'}
+    \frac{\alpha N_D'-N_U'}{\alpha N_D'+N_U'}
     =
-    \frac{(\alpha N_{U0}^+-N_{D0}^+)+(\alpha N_{U0}^++N_{D0}^+)AP^+\cos\omega t}{(\alpha N_{U0}^++N_{D0}^+)+(\alpha N_{U0}^+-N_{D0}^+)AP^+\cos\omega t}
+    \frac{(\alpha N_{D0}^+-N_{U0}^+)+(\alpha N_{D0}^++N_{U0}^+)P^+\cos\omega t}{(\alpha N_{D0}^++N_{U0}^+)+(\alpha N_{D0}^+-N_{U0}^+)P^+\cos\omega t}
 \end{equation}
-と表される非対称度は、$\alpha N_{U0}^+-N_{D0}^+=0$なる$\alpha$にて角振動数$\omega$の三角関数となる。
+と表される非対称度$\mathscr{A}$は、$\alpha N_{D0}^+-N_{U0}^+=0$なる$\alpha$にて角振動数$\omega$の三角関数となる。
 
 
 \section{実験・解析方法}
+
+本演習では、
+\begin{itemize}
+    \item ミュオンの寿命
+    \item 負ミュオンの寿命変化
+    \item スピン偏極
+\end{itemize}
+の測定を目的とする。
+
 \subsection{寿命測定}
+\label{sec: method: life}
+
+図\ref{fig: PSc, PMT position and muon path}に示すように試料を上下からプラスチックシンチレータ(PSc)で挟み光電子増倍管(PMT)に接続する。
+試料にはCu, Alの板を重ね合わせたものと、大理石の板とを使った。
+PSc+PMTは上層から順にT,U,Dとし、各層でシンチレーション光を別々に検出できるようにする。
+
+宇宙線及び崩壊粒子
+\footnote{$\mu^-$の原子核捕獲で生じる中性子も速度が〜となってPScの検出下限〜を上回るので、これには中性子も含む。}
+% 文献ほしい。崩壊中性子の速度とPSc内部の光速
+の飛程を考慮すると、以下の事象が考えられる。
+\renewcommand{\theenumi}{(\alph{enumi})}
+\begin{enumerate}
+    \item \label{item: pass through}粒子が試料を通過
+    \item \label{item: decay into U}崩壊時に粒子を上方へ放出
+    \item \label{item: decay into D}崩壊時に粒子を下方へ放出
+\end{enumerate}
+事象\ref{item: pass through}ではTUD全てのPSc+PMTが反応するが、事象\ref{item: decay into U}, \ref{item: decay into D}ではまずTUが反応しDが反応しない。
+その後時間を置いて粒子が崩壊すると、事象\ref{item: decay into U}ではUが、事象\ref{item: decay into D}ではDが反応する。
+
+各事象を弁別するためおおよそ図\ref{fig: circuit easy}に示す論理回路を組む。
+\footnote{実際に構成した論理回路は\ref{sec: logic circuit}を参照。2種類の試料を同時に測定するため、入出力が2系統あるのに加えて制御系統が複雑になっている。}
+左端のandゲートでミュオンが試料に停止したか検出し、停止すればgate generatorを作動、時間測定を開始する。
+このgate generatorが作動している間にUまたはDで信号を検出すれば、崩壊によって粒子が放出されたものとして同図右側のand gateで測定を止める。
+
+Cu, Al及び及び大理石それぞれの試料で計測は$\SI{18}{\hour}, \SI{51}{\hour}$にわたって行った。
 
 \begin{figure}
     \centering
@@ -226,41 +301,162 @@ $N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って、
             \subcaption{崩壊してDに電子を飛ばす場合}
         \end{minipage}
     \end{tabular}
-    \caption{PSc+PMTの配置と粒子の飛程}
-    \label{img: PSc, PMT position and muon path}
+    \caption{PSc+PMTの配置と粒子の飛程。着色部が試料を表す。}
+    \label{fig: PSc, PMT position and muon path}
 \end{figure}
 
 \begin{figure}
     \centering
     \input{../img/circuits/circiut-easy.tex}
-    \caption{回路の概要}
-    \label{img: circuit easy}
+    \caption{回路の概要。GGはgate generatorを表し、入力から所定の時間(本演習では$\SI[]{20}[]{\micro\second}$)出力を続ける。}
+    \label{fig: circuit easy}
 \end{figure}
+
+U, D両側で測定したカウント$N_U, N_D$を合計して、時間を横軸としてヒストグラムにする。
+% rebin 100 って何ns?
+$N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従うはずであるから、この式によってフィッティングし寿命$\tau_+, \tau_-$を求める。
+
 
 \subsection{スピン偏極測定}
 
+\ref{sec: method: life}でのCu, Alの実験と同様にセットアップした上で、ソレノイドコイルによって水平に磁場を印加、崩壊時間を測定する。
+
+解析にあたっては、まず上下別々にヒストグラムを描いて
+\begin{equation}
+    \label{eq: method: rough fitting of spin polarization by exp}
+    \begin{split}
+        &N_U(t)=N_U^0e^{-t/\tau_U}+BG_U
+        \\
+        &N_D(t)=N_D^0e^{-t/\tau_D}+BG_D
+    \end{split}
+\end{equation}
+でフィッティングする。
+得られたバックグラウンドを除いて$N_U'=N_U-BG_U, N_D'=N_D-BG_D$とし、$\alpha$を$0.01$ずつ変えて非対称度\eqref{eq: asymmetry}を計算する。
+ただし時間原点を揃える必要があるため、回路に組み込んだ遅延を考慮して、
+\begin{equation}
+    \label{eq: method: fit asymmetry}
+    \mathscr{A}(\alpha,t_{offset})
+    =
+    \frac{\alpha N_D'(t+t_{offset})-N_U'(t)}{\alpha N_D'(t+t_{offset})+N_U'(t)}
+    ,
+    \qquad
+    t_{offset}=-\SI{30}{\nano\second}
+\end{equation}
+の$A\cos(2\pi ft)$によるフィッティングが最適なものを探す。
+フィッティングの$\chi^2$が最小になる$\alpha$における$f$を振動数の測定値とする。
+
+検証のため測定値$f$と\eqref{eq: Larmor precession}から磁場の強さ$B$を逆算して、ソレノイドコイルの設計上期待される値$B_{design}=\SI{2}{\milli\tesla}$と比較する。
+
 
 \section{結果・考察}
+
 \subsection{ミュオンの寿命}
+
+測定データを図\ref{fig: result: CaCO3}に掲げる。
+フィッティングした曲線に基づき、それぞれの試料におけるミュオンの寿命は表\ref{table: result: life}のとおりになる。
+
+\begin{figure}
+    \centering
+    \begin{tabular}{cc}
+        \begin{minipage}[t]{0.5\hsize}
+            \includegraphics[width=7.5cm]{../img/results/CuAl18h.pdf}
+            \subcaption{Cu, Al}
+        \end{minipage}
+        &
+        \begin{minipage}[t]{0.5\hsize}
+            \includegraphics[width=7.5cm]{../img/results/CaCO3for51h.pdf}
+            \subcaption{大理石}
+        \end{minipage}
+    \end{tabular}
+    \caption{寿命測定結果}
+    \label{fig: result: CaCO3}
+\end{figure}
+
+\begin{table}
+    \centering
+    \caption{$\mu^\pm$の寿命測定結果。文献値は\cite{Ito Kaji Tabata Yoshiwara}から。}
+    \begin{tabular}{llrr}
+        \toprule
+        試料 & 粒子 & 寿命$[\unit{\micro\second}]$ & 文献値$[\unit{\micro\second}]$
+        \\
+        \midrule
+        Cu, Al & $\mu^+$ & $2.12\pm0.11$ & $2.20$
+        \\
+         & $\mu^-$ & $0.59\pm0.40$ & Cu: $0.16$, Al: $0.86$
+        \\
+        大理石 & $\mu^+$ & $2.20\pm0.15$ & $2.20$
+        \\
+         & $\mu^-$ & $0.84\pm0.33$ & Ca: $0.33$, C: $2.04$, O: $0.81$
+        \\
+        \bottomrule
+    \end{tabular}
+    \label{table: result: life}
+\end{table}
+
+特にCu, Alの結果についてはフィッティングの$\chi^2$値の上側累積確率が極端に小さく信頼性に乏しい。
+大理石を試料としたものはその点問題ない。
+特に$\mu^+$の結果は文献値によく沿っている。
+また$\mu^-$については構成元素単体の寿命の中間をとることがわかる。
+% 考察。特に負ミュオンはもっと欲しい。
 
 \subsection{スピン偏極}
 
+測定結果に\eqref{eq: method: rough fitting of spin polarization by exp}でフィッティングしたものを図に掲げる。
+磁場をかけることでカウントは\eqref{eq: N under Larmor}に従うはずであり\eqref{eq: method: rough fitting of spin polarization by exp}によるフィッティングは本来妥当でないが、この操作はバックグラウンドを差し引くためのものなので、$BG_U$の標準偏差及び$\chi^2$の上側累積確率などフィッティングの信頼性は特に留意しない。
+各変数は表\ref{table: result: parameters of result with B fit with exp}のようになる。
 
-\pagebreak
+\begin{table}
+    \centering
+    \caption{\eqref{eq: method: rough fitting of spin polarization by exp}によってフィッティングしたときの変数値}
+    \begin{tabular}[]{lrr}
+        \toprule
+        $N_U^0$ & $4.63817e+02\:\pm8.72257e+00$
+        \\
+        $\tau_U$ & $2.07050e+03\:\pm3.18642e+01$
+        \\
+        $BG_U$ & $6.39559e+00\:\pm2.74083e-01$
+        \\
+        \midrule
+        $N_D^0$ & $2.14776e+02\:\pm6.68531e+00$
+        \\
+        $\tau_D$ & $2.00158e+03\:\pm5.62010e+01$
+        \\
+        $BG_D$ & $8.27831e+00\:\pm2.91137e-01$
+        \\
+        \bottomrule
+    \end{tabular}
+    \label{table: result: parameters of result with B fit with exp}
+\end{table}
 
+次いで$\alpha$を$0.01$ずつ変えて非対称度\eqref{eq: method: fit asymmetry}を計算し、$A\cos(2\pi ft)$にフィッティングさせたときの$\chi^2$値を図\ref{fig: result: alpha and chi square}に示す。
+極値は$(\alpha,\chi^2)=(2.23, 0.85)$であり、上側累積確率は$74.7\%$である。
+そこで$\alpha=2.23$を採用して\eqref{eq: method: fit asymmetry}を描き$\cos$でフィッティングすると図\ref{fig: result: asymmetry}の通りになる。
+
+\begin{figure}
+    \centering
+    \includegraphics[width=8cm]{../analysis/Larmor/ver2/alpha-chi2.pdf}
+    \caption{$\alpha$を変えて非対称度\eqref{eq: method: fit asymmetry}を三角関数でフィッティングしたときの$\chi^2$値}
+    \label{fig: result: alpha and chi square}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=9cm]{../analysis/Larmor/ver2/asymmetry.pdf}
+    \caption{非対称度$\mathscr{A}$と$\cos$によるフィッティング}
+    \label{fig: result: asymmetry}
+\end{figure}
+
+これより振動周期$T=\SI{4.217\pm0.517}{\second}$を得て、\eqref{eq: Larmor precession}より磁場を計算すると$B=\SI{1.75+-0.22}{\milli\tesla}$となる。
+$B_{design}=\SI{2}{\milli\tesla}$と比較して、この結果が妥当であることが確かめられる。
 
 
 \appendix
-\setcounter{section}{0}
-\setcounter{equation}{1}
-\setcounter{figure}{1}
-\setcounter{table}{1}
-\renewcommand{\theequation}{\Alph{section}.\arabic{equation} }
-\renewcommand{\thefigure}{\Alph{section}.\arabic{equation} }
-\renewcommand{\thetable}{\Alph{section}.\arabic{equation} }
+
 
 \section{論理回路}
-実験で実際に用いたNIMモジュールの回路を図\ref{img: full circuit}に掲げる。
+\label{sec: logic circuit}
+
+実験で実際に用いたNIMモジュールの回路を図\ref{fig: full circuit}に掲げる。
 主にCu, Alからの信号の入力部(Cu, Al)、大理石からの入力部($\mathrm{CaCO_3}$)、制御部(GATES)、出力部(OUTPUTS)に大別できる。
 
 入力はTUD各層それぞれ3組のPSc+PMTから引いている。
@@ -279,9 +475,246 @@ DAQ-PCでは短時間に複数のstart信号を受けたとき最初の信号の
         \centering
         \input{../img/circuits/circuit.tex}
         \caption{実験で用いた論理回路}
-        \label{img: full circuit}
+        \label{fig: full circuit}
     \end{figure}
 \end{landscape}
+
+
+\section{解析コード}
+
+ここでは解析に用いたコードの概要を示す。
+変数の宣言やヒストグラムの取得などは省略しているため、表示の通りに実装しても作動しない。
+実際に解析で使用したものは\url{https://github.com/LowToneVoice/ksc16/tree/main/group7/analysis}を参照のこと。
+また測定データを\url{https://github.com/LowToneVoice/ksc16/tree/main/group7/data}に置いている。
+% 置いとくならこのセクションいらない？
+
+\subsection{寿命測定}
+
+\begin{mylisting}[language=c++, caption=addfitCuAl.C]
+void addfitCuAl()
+{
+    // sum of hists
+    hu->Add(hd, 1);
+    // configure bin of hist
+    hu->Rebin(50);
+
+    // fitting curve
+    TF1 *f1 = new TF1("f1", "[ 0 ] * exp( -x / [ 1 ]) + [ 2 ] * exp( -(x + [ 3 ]) / [ 4 ]) +  [ 5 ] ");
+    f1->SetParameters(100, 2200.0, 100, 0, 2100.0, 0.0);
+    f1->SetParNames("N_{+}", "#tau_{+}", "N_{-}", "td_0", "#tau_{-}", "BG");
+    hu->Fit("f1", "", "", 100, 20000);
+
+    // y axis to log scale
+    c1->SetLogy();
+    hu->Draw();
+}
+\end{mylisting}
+\begin{mylisting}[language=c++, caption=addfitCa.C]
+void addfitCa()
+{
+    // sum of hists
+    hu->Add(hd);
+    // configure bin of hist
+    hu->Rebin(100);
+    hu->Draw();
+
+    // fitting curve
+    TF1 *f1 = new TF1("f1", "[ 0 ] * exp( -(x / [ 1 ])) + [ 2 ] * exp( -(x / [ 3 ])) +  [ 4 ] ");
+    f1->SetParameters(150, 2000.0, 120, 900.0, 2.0);
+    f1->SetParNames("N_{+}", "#tau_{+}", "N_{-}", "#tau_{-}", "BG");
+    hu->Fit("f1", "", "", 100, 20000);
+    // y axis to log scale
+    c1->SetLogy();
+}
+\end{mylisting}
+
+\subsection{スピン偏極測定}
+% 各コードで何が出てくるか、どうやって運用するかを記述。
+まずexpFit.Cで\eqref{eq: method: rough fitting of spin polarization by exp}のフィッティングを行いバックグラウンドを求める。
+\eqref{eq: method: fit asymmetry}の$\cos$によるフィッティングの$\chi^2$値を複数の$\alpha$で計算する。
+$\chi^2$が極小となる$\alpha$を選び\eqref{eq: method: fit asymmetry}のフィッティングパラメーターを結果とする。
+
+\begin{mylisting}[language=c++,caption=expFit.C]
+void expFit()
+{
+    // configure bin of hist
+    hu->Rebin(100);
+    hd->Rebin(100);
+
+    // fitting curve
+    TF1 *fu = new TF1("fu", "[0] * exp(-x / [1]) + [2]");
+    TF1 *fd = new TF1("fd", "[0] * exp(-x / [1]) + [2]");
+    fu->SetParameters(200.0, 2000.0, 0.0);
+    fu->SetParNames("N_U", "#tau_U", "BG_U");
+    fd->SetParameters(100.0, 2000.0, 0.0);
+    fd->SetParNames("N_D", "#tau_D", "BG_D");
+    hu->Fit("fu", "", "", 300, 20000);
+    hd->Fit("fd", "", "", 300, 20000);
+
+    hd->Draw();
+    hu->Draw("same");
+    // y axis to log scale
+    c1->SetLogy();
+}
+\end{mylisting}
+
+\begin{mylisting}[language=c++,caption=findPar.C]
+void findPar()
+{
+    // hists
+    h1_init = (TH1D *)h1->Clone();
+    h2_init = (TH1D *)h2->Clone();
+
+    for (i = 0; i < 500; i++)
+    {
+        offset = -30;
+        alpha = 0.1 + i * 0.01;
+
+        h1 = (TH1D *)h1_init->Clone();
+        h2 = (TH1D *)h2_init->Clone();
+
+        // move h2 left for offset
+        for (k = 0; k < h2->GetXaxis()->GetNbins(); k++)
+        {
+            if (offset + k < 0)
+            {
+                h2->SetBinContent(k, 0);
+            }
+            else
+            {
+                h2->SetBinContent(k, h2_init->GetBinContent(k + offset));
+            }
+        }
+
+        // rebin
+        h1->Rebin(100);
+        h2->Rebin(100);
+
+        // for error evaluation
+        h1->Sumw2();
+        h2->Sumw2();
+
+        // delete BGs
+        for (k = 0; k < h1->GetXaxis()->GetNbins(); k++)
+        {
+            h1->SetBinContent(k, h1->GetBinContent(k) - bg_u);
+        }
+        for (k = 0; k < h2->GetXaxis()->GetNbins(); k++)
+        {
+            h2->SetBinContent(k, h2->GetBinContent(k) - bg_d);
+        }
+        h3 = (TH1D *)h1->Clone();
+        h4 = (TH1D *)h2->Clone();
+
+        // h2 times alpha
+        for (k = 0; k < h2->GetXaxis()->GetNbins(); k++)
+        {
+            h2->SetBinContent(k,  (h4->GetBinContent(k) * alpha));
+            h2->SetBinError(k, (h4->GetBinError(k) * alpha));
+        }
+
+        // D-U/D+U
+        h3 = (TH1D *)h1->Clone();
+        h4 = (TH1D *)h2->Clone();
+        h4->Add(h3, -1);
+        h2->Add(h1);
+        h4->Divide(h2);
+
+        // fitting by cos
+        TF1 *f = new TF1("f", "[0] * cos(2 * TMath::Pi() * (x - [2]) / [1])");
+        f->SetParNames("A", "T", "t_offset");
+        f->SetParameters(.1, 3500, .0);
+        f->SetParLimits(0, .01, .5);
+        f->SetParLimits(1, 2500, 4500);
+        f->SetParLimits(2, -500., 500.);
+        h4->Fit("f", "", "", 300, 5000);
+
+        // output chi^2/ndf and prob
+        erfun = h4->GetFunction("f")->GetChisquare();
+        ndf = h4->GetFunction("f")->GetNDF();
+        prob = h4->GetFunction("f")->GetProb();
+        outputfile_chi2 << alpha << " " << erfun / ndf << " ";
+        outputfile_prob << alpha << " " << prob << " ";
+
+        // change the lines of
+        outputfile_chi2 << endl;
+        outputfile_prob << endl;
+    }
+    outputfile_chi2.close();
+    outputfile_prob.close();
+}
+\end{mylisting}
+
+\begin{mylisting}[language=c++,caption=fitAsym.C]
+void fitAsym()
+{
+    offset = -30;
+    alpha = 2.23;
+    // hists
+    h1_init = (TH1D *)h1->Clone();
+    h2_init = (TH1D *)h2->Clone();
+
+    // move h2 left for offset
+    for (i = 0; i < h2->GetXaxis()->GetNbins(); i++)
+    {
+        if (offset + i < 0)
+        {
+            h2->SetBinContent(i, 0);
+        }
+        else
+        {
+            h2->SetBinContent(i, h2_init->GetBinContent(i + offset));
+        }
+    }
+
+    // rebin
+    h1->Rebin(100);
+    h2->Rebin(100);
+
+    // for error evaluation
+    h1->Sumw2();
+    h2->Sumw2();
+
+    // delete BGs
+    for (i = 0; i < h1->GetXaxis()->GetNbins(); i++)
+    {
+        h1->SetBinContent(i, h1->GetBinContent(i) - bg_u);
+    }
+    for (i = 0; i < h2->GetXaxis()->GetNbins(); i++)
+    {
+        h2->SetBinContent(i, h2->GetBinContent(i) - bg_d);
+    }
+    h3 = (TH1D *)h1->Clone();
+    h4 = (TH1D *)h2->Clone();
+
+    // h2 times alpha
+    for (i = 0; i < h2->GetXaxis()->GetNbins(); i++)
+    {
+        h2->SetBinContent(i, h4->GetBinContent(i) * alpha);
+        h2->SetBinError(i, h4->GetBinError(i) * alpha);
+    }
+
+    // D-U/D+U
+    h3 = (TH1D *)h1->Clone();
+    h4 = (TH1D *)h2->Clone();
+    h4->Add(h3, -1);
+    h2->Add(h1);
+    h4->Divide(h2);
+
+    // fitting by cos
+    TF1 *f = new TF1("f", "[0] * cos(2 * TMath::Pi() * (x - [2]) / [1])");
+    f->SetParNames("A", "T", "t_offset");
+    f->SetParameters(.1, 3500, .0);
+    f->SetParLimits(0, .01, .5);
+    f->SetParLimits(1, 2500, 4500);
+    f->SetParLimits(2, -500., 500.);
+    h4->Fit("f", "", "", 300, 5000);
+
+    h4->Draw();
+}
+\end{mylisting}
+
+
 
 \begin{thebibliography}{10}
     \bibitem{Ito Kaji Tabata Yoshiwara} 伊藤泰男,鍛冶東海,田畑米穂,吉原賢二,「素粒子の化学」学会出版センター(1985)

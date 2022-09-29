@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+    \draw
+        [very thick,samples=50,domain=0:2*pi,variable=\theta]plot(\theta/pi*180:{1+cos(\theta/pi*180)/3})
+    ;
+    \draw
+        [dashed, very thick,samples=50,domain=0:2*pi,variable=\theta]plot(180-\theta/pi*180:{1+cos(\theta/pi*180)/3})
+    ;
+    \draw[-Stealth, thick](-.25,0)--(.25,0);
+    \draw[step=1,gray,very thin](-1.5,-1.5)grid(1.5,1.5);
+    \node at(-.5,1)[anchor=south east]{$e^-$};
+    \node at(.5,1)[anchor=south west]{$e^+$};
+    \node at(0,0)[anchor=north]{$\mu^\pm$};
+\end{tikzpicture}
