@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+    \coordinate(pi)at(0,0);
+    \coordinate(mu)at(2,0);
+    \coordinate(nu)at(-2,0);
+    \draw
+        (pi)circle[radius=.5]node[anchor=center]{$\pi^+$}
+        (mu)circle[radius=.25]node[anchor=center]{$\mu^+$}
+        (nu)circle[radius=.05]node[anchor=north]{$\nu_\mu$}
+    ;
+    \draw[-Stealth]($(pi)+(.5,0)$)--($(mu)+(-.25,0)$);
+    \draw[-Stealth]($(pi)+(-.5,0)$)--($(nu)+(.05,0)$);
+    \draw[-Stealth]($(pi)+(-1.2,.2)$)arc(150:-150:.2 and .4);
+    \draw[-Stealth]($(pi)+(1.2,.2)$)arc(30:330:.2 and .4);
+\end{tikzpicture}

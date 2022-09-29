@@ -9,6 +9,7 @@
 \sisetup{separate-uncertainty=true}
 % calligraphy
 \usepackage{bm}
+\usepackage{color}
 \usepackage{mathrsfs}
 % hyperlink
 \usepackage{hyperref}
@@ -25,36 +26,7 @@
 \usetikzlibrary{intersections,calc,arrows.meta}
 \usetikzlibrary{circuits.logic.US}
 \usetikzlibrary{positioning, fit}
-% eq, fig, table number
-% \makeatletter
-%     % reference to <section>.<ref>
-%     \renewcommand{\theequation}{\thesection.\arabic{equation}}
-%     \renewcommand{\thefigure}{\thesection.\arabic{figure}}
-%     \renewcommand{\thetable}{\thesection.\arabic{table}}
-
-%     % reset references when renew section
-%     \@addtoreset{equation}{section}
-%     \@addtoreset{figure}{section}
-%     \@addtoreset{table}{section}
-
-%     % for appendix
-%     % cf. https://geniusium.hatenablog.com/entry/2022/02/08/074315
-%     \renewcommand{\appendix}{\par
-%         % renew section No.
-%         \setcounter{section}{0}
-%         \setcounter{subsection}{0}
-%         \gdef\presectionname{\appendixname}
-%         \gdef\postsectionname{}
-%         \gdef\thesection{\presectionname\@Alph\c@section\postsectionname}
-%         \gdef\thesubsection{\@Alph\c@section.\@arabic\c@subsection}
-%         % reference styles
-%         \renewcommand{\theequation}{\@Alph\c@section.\arabic{equation}}%
-%         \renewcommand{\thefigure}{\@Alph\c@section.\arabic{figure}}%
-%         \renewcommand{\thetable}{\@Alph\c@section.\arabic{table}}%
-%     }
-% \makeatother
-% displaying codes
-% cf. https://turgure.hatenablog.com/entry/2016/08/19/183501
+% for writing codes
 \lstnewenvironment{mylisting}[1][]
     {\lstset{
         breaklines=true,
@@ -74,6 +46,7 @@
 
 \title{宇宙線観察から学ぶ粒子の崩壊とスピン回転
 }
+
 \begin{document}
 \maketitle
 
@@ -102,12 +75,24 @@
     &\pi^-\to\mu^-+\bar{\nu}_\mu
 \end{align*}
 と崩壊する。
-% 以下全ての反応について、ファインマンダイアグラム描けそうだったら書いて欲しい。必要そうならの話だけど。
 
-ニュートリノのヘリシティは負、反ニュートリノは正であるから、角運動量保存よりパイオン静止系にて$\mu^+$のスピンは運動量と逆、$\mu^-$は同じ向きとなる。
-パイオンの崩壊は主に電磁シャワー内部で生じることを考慮すると、実験室系にて地表に降り注ぐ向きの運動量が大きい$\mu^+$はスピンが下向き、$\mu^-$はスピンが上向きになる割合が多くなると考えられる。
+ニュートリノのヘリシティは負、反ニュートリノは正であるから、角運動量保存よりパイオン静止系にて$\mu^+$のスピンは運動量と逆、$\mu^-$は同じ向きとなる(図\ref{fig: pion decay})。
+パイオンの崩壊は主に電磁シャワー内部で生じることを考慮すると、図\ref{fig: muon shower}のように実験室系にて地表に降り注ぐ向きの運動量が大きい$\mu^+$はスピンが下向き、$\mu^-$はスピンが上向きになる割合が多くなると考えられる。
 % 定量的なことを言いたい
-% 図が欲しい気もする
+
+\begin{figure}
+    \centering
+    \input{../img/models/pion_decay.tex}
+    \caption{$\pi^+$の崩壊}
+    \label{fig: pion decay}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \input{../img/models/muon_shower.tex}
+    \caption{地表に降り注ぐ荷電粒子とスピン}
+    \label{fig: muon shower}
+\end{figure}
 
 
 \subsection{ミュオンの崩壊}
@@ -132,16 +117,15 @@ Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電�
     )
     e^{-\gamma t}\dd{y}\dd{\Omega}
 \end{equation*}
-積分して、
-\begin{equation*}
-    N=
-    \iint N_0\frac{\lambda}{4\pi}
-    A_0(1+aP\cos\theta)e^{-\gamma t}
-    \dd{y}\dd{\Omega}
-\end{equation*}
-を得る。
-% 図ほしい。できれば計算で求めたやつ。
+簡単な場合に図示すると図\ref{fig: muon decay distrib.}のようになる。
 すなわち、$\mu^+$はスピンと同じ向きに陽電子を、$\mu^-$はスピンと逆向きに電子を出しやすい。
+
+\begin{figure}
+    \centering
+    \input{../img/models/muon_decay.tex}
+    \caption{$\mu^\pm$のスピン(矢印)と崩壊にて放出される$e^+$(実線)及び$e^+$(破線)の分布}
+    \label{fig: muon decay distrib.}
+\end{figure}
 
 \ref{sec: theory: generation of muon}を合わせて踏まえると、地表に降り注ぐミュオンのうち運動量の大きいものは上向きに、運動量の小さいものは下向きに(陽)電子を多く放出する。
 
@@ -202,10 +186,16 @@ Fermiの黄金則を使えばエネルギーとスピンに依存する(陽)電�
 
 \ref{sec: theory: decay of muon}に基づけば、磁場をかけない状態で運動量の比較的大きいミュオンを多くトラップする試料を上下2つの検出器で挟むと上側で(陽)電子をより多く検出する。
 しかし上下の検出数の差がスピン偏極によるものなのか検出器の特性によるものなのかを判断することは難しい。
-% 実際の実験装置とは別に試料上下に検出器を置いている図が欲しい。概念的なものなのでTはいらない。
 そこで偏極の検出では一般にミュオンスピン回転(µSR)と呼ばれるLarmor歳差運動を用いた方法を採る。
 
-磁気回転比$\gamma$のミュオンに磁場$\bm{B}$がかかったとき、
+\begin{figure}[b]
+    \centering
+    \input{../img/models/LarmorSpin.tex}
+    \caption{Larmor歳差運動を用いたミュオンスピン検出実験の配置。着色部で表す試料の上下を検出器で挟む。水平に磁場をかけるとスピンが歳差運動し、崩壊の際に放出される粒子の分布が上下で時々刻々と変化する。}
+    \label{fig: Larmor spin}
+\end{figure}
+
+図\ref{fig: Larmor spin}に示すように、磁気回転比$\gamma$のミュオンに磁場$\bm{B}$がかかったとき、
 \begin{equation}
     \label{eq: Larmor precession}
     \bm{\omega}=\gamma\bm{B}
