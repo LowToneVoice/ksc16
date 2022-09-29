@@ -357,33 +357,47 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
 
 \begin{figure}
     \centering
-    \includegraphics[width=8cm]{../analysis/Life/CaCO3for51h.pdf}
-    \caption{大理石}
+    \begin{tabular}{cc}
+        \begin{minipage}[t]{0.5\hsize}
+            \includegraphics[width=7.5cm]{../img/results/CuAl18h.pdf}
+            \subcaption{Cu, Al}
+        \end{minipage}
+        &
+        \begin{minipage}[t]{0.5\hsize}
+            \includegraphics[width=7.5cm]{../img/results/CaCO3for51h.pdf}
+            \subcaption{大理石}
+        \end{minipage}
+    \end{tabular}
+    \caption{寿命測定結果}
     \label{fig: result: CaCO3}
 \end{figure}
 
 \begin{table}
     \centering
-    \caption{$\mu^\pm$の寿命測定結果}
+    \caption{$\mu^\pm$の寿命測定結果。文献値は\cite{Ito Kaji Tabata Yoshiwara}から。}
     \begin{tabular}{llrr}
         \toprule
         試料 & 粒子 & 寿命$[\unit{\micro\second}]$ & 文献値$[\unit{\micro\second}]$
         \\
         \midrule
-        Cu, Al & $\mu^+$ & & 2.20
+        Cu, Al & $\mu^+$ & $2.12\pm0.11$ & $2.20$
         \\
-         & $\mu^-$ & & Cu: 0.16, Al: 0.86
+         & $\mu^-$ & $0.59\pm0.40$ & Cu: $0.16$, Al: $0.86$
         \\
-        大理石 & $\mu^+$ & 2.20 & 2.20
+        大理石 & $\mu^+$ & $2.20\pm0.15$ & $2.20$
         \\
-         & $\mu^-$ & 0.84 & Ca: 0.33, C: 2.04, O: 0.81
+         & $\mu^-$ & $0.84\pm0.33$ & Ca: $0.33$, C: $2.04$, O: $0.81$
         \\
         \bottomrule
     \end{tabular}
     \label{table: result: life}
 \end{table}
 
-% 考察。特に負ミュオン
+特にCu, Alの結果についてはフィッティングの$\chi^2$値の上側累積確率が極端に小さく信頼性に乏しい。
+大理石を試料としたものはその点問題ない。
+特に$\mu^+$の結果は文献値によく沿っている。
+また$\mu^-$については構成元素単体の寿命の中間をとることがわかる。
+% 考察。特に負ミュオンはもっと欲しい。
 
 \subsection{スピン偏極}
 
@@ -414,7 +428,7 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
     \label{table: result: parameters of result with B fit with exp}
 \end{table}
 
-次いで$\alpha$を$0.01$ずつ変えて非対称度\ref{eq: method: fit asymmetry}を計算し、$A\cos(2\pi ft)$にフィッティングさせたときの$\chi^2$値を図\ref{fig: result: alpha and chi square}に示す。
+次いで$\alpha$を$0.01$ずつ変えて非対称度\eqref{eq: method: fit asymmetry}を計算し、$A\cos(2\pi ft)$にフィッティングさせたときの$\chi^2$値を図\ref{fig: result: alpha and chi square}に示す。
 極値は$(\alpha,\chi^2)=(2.23, 0.85)$であり、上側累積確率は$74.7\%$である。
 そこで$\alpha=2.23$を採用して\eqref{eq: method: fit asymmetry}を描き$\cos$でフィッティングすると図\ref{fig: result: asymmetry}の通りになる。
 
@@ -427,7 +441,7 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
 
 \begin{figure}
     \centering
-    \includegraphics[width=12cm]{../analysis/Larmor/ver2/asymmetry.pdf}
+    \includegraphics[width=9cm]{../analysis/Larmor/ver2/asymmetry.pdf}
     \caption{非対称度$\mathscr{A}$と$\cos$によるフィッティング}
     \label{fig: result: asymmetry}
 \end{figure}
@@ -476,16 +490,32 @@ DAQ-PCでは短時間に複数のstart信号を受けたとき最初の信号の
 
 \subsection{寿命測定}
 
-\begin{mylisting}[language=c++, caption=life.C]
-void life()
+\begin{mylisting}[language=c++, caption=addfitCuAl.C]
+void addfitCuAl()
+{
+    // sum of hists
+    hu->Add(hd, 1);
+    // configure bin of hist
+    hu->Rebin(50);
+
+    // fitting curve
+    TF1 *f1 = new TF1("f1", "[ 0 ] * exp( -x / [ 1 ]) + [ 2 ] * exp( -(x + [ 3 ]) / [ 4 ]) +  [ 5 ] ");
+    f1->SetParameters(100, 2200.0, 100, 0, 2100.0, 0.0);
+    f1->SetParNames("N_{+}", "#tau_{+}", "N_{-}", "td_0", "#tau_{-}", "BG");
+    hu->Fit("f1", "", "", 100, 20000);
+
+    // y axis to log scale
+    c1->SetLogy();
+    hu->Draw();
+}
+\end{mylisting}
+\begin{mylisting}[language=c++, caption=addfitCa.C]
+void addfitCa()
 {
     // sum of hists
     hu->Add(hd);
     // configure bin of hist
     hu->Rebin(100);
-    // max and min of axis
-    hu->GetXaxis()->SetRangeUser(0, 20000);
-    hu->GetYaxis()->SetRangeUser(0.1, 300);
     hu->Draw();
 
     // fitting curve
@@ -493,11 +523,8 @@ void life()
     f1->SetParameters(150, 2000.0, 120, 900.0, 2.0);
     f1->SetParNames("N_{+}", "#tau_{+}", "N_{-}", "#tau_{-}", "BG");
     hu->Fit("f1", "", "", 100, 20000);
-    hu->SetLineWidth(2.0);
     // y axis to log scale
     c1->SetLogy();
-    // label displayed with the graph
-    hu->SetTitle("CaCO3 51h;time [ns];count;");
 }
 \end{mylisting}
 
@@ -510,17 +537,7 @@ $\chi^2$が極小となる$\alpha$を選び\eqref{eq: method: fit asymmetry}の�
 \begin{mylisting}[language=c++,caption=expFit.C]
 void expFit()
 {
-    gStyle->SetOptStat(0000);
-    gStyle->SetOptFit(0000);
-    gStyle->SetFuncWidth(2);
-
-    const char *fp = "../../data/4013.root";
-    TFile *file = new TFile(fp);
-    TH1D *hu;
-    TH1D *hd;
-    TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
-    file->GetObject("single_ch0000_0", hu);
-    file->GetObject("single_ch0001_0", hd);
+    // configure bin of hist
     hu->Rebin(100);
     hd->Rebin(100);
 
@@ -532,20 +549,10 @@ void expFit()
     fd->SetParameters(100.0, 2000.0, 0.0);
     fd->SetParNames("N_D", "#tau_D", "BG_D");
     hu->Fit("fu", "", "", 300, 20000);
-    hu->SetLineWidth(2.0);
     hd->Fit("fd", "", "", 300, 20000);
-    hd->SetLineWidth(2.0);
 
-    // graph and axis label
-    hu->SetTitle("Cu, Al with B 33h;time [ns];count;");
-    hd->SetTitle("Cu, Al with B 33h;time [ns];count;");
     hd->Draw();
-    hd->SetLineColor(kRed);
-    hd->GetXaxis()->SetRangeUser(0, 20000);
-    hd->GetYaxis()->SetRangeUser(0.9, 500);
     hu->Draw("same");
-    hu->GetXaxis()->SetRangeUser(0, 20000);
-    hu->GetYaxis()->SetRangeUser(0.9, 500);
     // y axis to log scale
     c1->SetLogy();
 }
@@ -554,36 +561,13 @@ void expFit()
 \begin{mylisting}[language=c++,caption=findPar.C]
 void findPar()
 {
-    TH1D *h1;
-    TH1D *h2;
-    TH1D *h3;
-    TH1D *h4;
-    TH1D *h1_init;
-    TH1D *h2_init;
-    const char *fp = "../../../data/4013.root";
-    TFile *file = new TFile(fp);
-    // parameters
-    int i, j, k;
-    int offset = -30;
-    double alpha;
-    // results
-    Double_t erfun;
-    Double_t ndf;
-    Double_t prob;
-    // BGs
-    const double bg_u = 6.39559e+00;
-    const double bg_d = 8.27831e+00;
-    // output files
-    std::ofstream outputfile_chi2("param_chi2.dat");
-    std::ofstream outputfile_prob("param_prob.dat");
     // hists
-    file->GetObject("single_ch0000_0", h1);
-    file->GetObject("single_ch0001_0", h2);
     h1_init = (TH1D *)h1->Clone();
     h2_init = (TH1D *)h2->Clone();
 
     for (i = 0; i < 500; i++)
     {
+        offset = -30;
         alpha = 0.1 + i * 0.01;
 
         h1 = (TH1D *)h1_init->Clone();
@@ -664,28 +648,9 @@ void findPar()
 \begin{mylisting}[language=c++,caption=fitAsym.C]
 void fitAsym()
 {
-    gStyle->SetOptStat(1111);
-    gStyle->SetOptFit(1111);
-    gStyle->SetFuncWidth(2);
-
-    TH1D *h1;
-    TH1D *h2;
-    TH1D *h3;
-    TH1D *h4;
-    TH1D *h1_init;
-    TH1D *h2_init;
-    const char *fp = "../../../data/4013.root";
-    TFile *file = new TFile(fp);
-    // parameters
-    int i;
-    int offset = -30;
-    double alpha = 2.23;
-    // BGs
-    const double bg_u = 6.39559e+00;
-    const double bg_d = 8.27831e+00;
+    offset = -30;
+    alpha = 2.23;
     // hists
-    file->GetObject("single_ch0000_0", h1);
-    file->GetObject("single_ch0001_0", h2);
     h1_init = (TH1D *)h1->Clone();
     h2_init = (TH1D *)h2->Clone();
 
@@ -745,10 +710,7 @@ void fitAsym()
     f->SetParLimits(2, -500., 500.);
     h4->Fit("f", "", "", 300, 5000);
 
-    h4->SetTitle("Asymmetry;time [ns];A");
     h4->Draw();
-    h4->GetXaxis()->SetRangeUser(0, 10000);
-    h4->GetYaxis()->SetRangeUser(-.4, .7);
 }
 \end{mylisting}
 
