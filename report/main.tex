@@ -1,5 +1,6 @@
 \documentclass[dvipdfmx]{jsarticle}
 \usepackage{amsmath,amssymb}
+\usepackage[]{pdfpages}
 \usepackage{url}
 
 \begin{document}
@@ -15,5 +16,11 @@
 \input{sections/introduction.tex}
 \pagebreak
 
+編者注: 第2稿ではタイトルを忘れないでください。
+
+\pagebreak
+
+\includepdf[pages=-, pagecommand={}]{../group2/report/main.pdf}
+\includepdf[pages=-, pagecommand={}]{../group7/report/main.pdf}
 
 \end{document}
