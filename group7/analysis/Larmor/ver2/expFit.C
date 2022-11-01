@@ -2,6 +2,7 @@ void expFit()
 {
     gStyle->SetOptStat(0000);
     gStyle->SetOptFit(0000);
+    gStyle->SetOptTitle(0);
     gStyle->SetFuncWidth(2);
 
     const char *fp = "../../../data/4013.root";
@@ -27,10 +28,13 @@ void expFit()
     hd->SetLineWidth(2.0);
 
     // graph and axis label
-    hu->SetTitle("Cu, Al with B 33h;time [ns];count;");
-    hd->SetTitle("Cu, Al with B 33h;time [ns];count;");
+    hu->SetTitle("Count U;time [ns];count;");
+    hd->SetTitle("Count D;time [ns];count;");
+    hu->SetLineColor(4);
+    hd->SetLineColor(2);
+    hu->GetFunction("fu")->SetLineColor(4);
+    hd->GetFunction("fd")->SetLineColor(2);
     hd->Draw();
-    hd->SetLineColor(kRed);
     hd->GetXaxis()->SetRangeUser(0, 20000);
     hd->GetYaxis()->SetRangeUser(0.9, 500);
     hu->Draw("same");
@@ -38,4 +42,5 @@ void expFit()
     hu->GetYaxis()->SetRangeUser(0.9, 500);
     // y axis to log scale
     c1->SetLogy();
+    gPad->BuildLegend();
 }
