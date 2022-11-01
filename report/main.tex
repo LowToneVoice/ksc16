@@ -1,19 +1,26 @@
 \documentclass[dvipdfmx]{jsarticle}
 \usepackage{amsmath,amssymb}
+\usepackage[]{pdfpages}
 \usepackage{url}
 
 \begin{document}
 
 \title{第16回KEKサマーチャレンジ演習詳細}
-\author{参加学生有志}
+\author{ksc16 演習の遺産}
 \date{\today}
 \begin{titlepage}
     \maketitle
     \thispagestyle{empty}
 \end{titlepage}
 
-\input{sections/introduction.tex}
+\input{introduction.tex}
 \pagebreak
 
+編者注: 最終稿ではタイトルを忘れないでください。
+
+\pagebreak
+
+\includepdf[pages=-, pagecommand={}]{../group2/report/main.pdf}
+\includepdf[pages=-, pagecommand={}]{../group7/report/main.pdf}
 
 \end{document}
