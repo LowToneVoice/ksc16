@@ -6,9 +6,9 @@
     \draw(pi1)circle[radius=.05]node[anchor=north east]{$\pi^+$};
     \draw(pi2)circle[radius=.05]node[anchor=south west]{$\pi^+$};
     \draw[-Stealth]($(pi1)+(.1,.1)$)--++(.5,.5)node[anchor=south west]{$\mu^+$};
-    \draw[Stealth-]($(pi1)+(.3,.3)+(.0,-.1)$)arc(-90:180:.1);
+    \draw[-Stealth]($(pi1)+(.3,.3)+(.0,-.1)$)arc(-90:180:.1);
     \draw[-Stealth]($(pi2)+(-.1,-.1)$)--++(-.5,-.5)node[anchor=north east]{$\mu^+$};
-    \draw[-Stealth]($(pi2)+(-.3,-.3)+(.0,-.1)$)arc(-90:180:.1);
+    \draw[Stealth-]($(pi2)+(-.3,-.3)+(.0,-.1)$)arc(-90:180:.1);
     \draw[ultra thick,-Stealth]($(pi1)!.5!(pi2)+(.2,.2)$)--++(-.4,-.4)
     node[anchor=north east]{$\bm{v}_\pi$};
 \end{tikzpicture}
