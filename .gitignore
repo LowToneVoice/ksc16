@@ -1,10 +1,10 @@
 .vscode
 out/
+*.aux
+*.dvi
 *.log
 *.out
 *.synctex.gz
 *.synctex(busy)
-*.aux
-*.dvi
 *.toc
 *.DS_Store
