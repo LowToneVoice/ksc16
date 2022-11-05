@@ -102,11 +102,11 @@
 \label{sec: theory: decay of muon}
 
 宇宙線ミュオンは地表に降り注ぐ間は固有時間がほとんど進まないが,
-\footnote{
-    高度$\SI{15}{\km}$にて生成し地表での平均エネルギー$\SI{4}{\GeV}$で飛来する間のミュオンの固有時間は〜と概算される.
-    これに加えて空中で$\SI{2}{\GeV}$減衰することを考慮すると, 固有時間は寿命に比べて十分短い.
-    数値は全て\cite{PDG}より.
-}
+% \footnote{
+%     高度$\SI{15}{\km}$にて生成し地表での平均エネルギー$\SI{4}{\GeV}$で飛来する間のミュオンの固有時間は〜と概算される.
+%     これに加えて空中で$\SI{2}{\GeV}$減衰することを考慮すると, 固有時間は寿命に比べて十分短い.
+%     数値は全て\cite{PDG}より.
+% }
 資料にトラップされると平均寿命$\SI{2.2}{\micro\second}$で崩壊し電子または陽電子を放出する.
 \begin{align*}
     &\mu^+\to e^++\nu_e+\bar{\nu}_\mu
@@ -191,13 +191,6 @@
 しかし上下の検出数の差がスピン偏極によるものなのか検出器の特性によるものなのかを判断することは難しい.
 そこで偏極の検出では一般にミュオンスピン回転(µSR)と呼ばれるLarmor歳差運動を用いた方法を採る.
 
-\begin{figure}[b]
-    \centering
-    \input{../img/models/LarmorSpin.tex}
-    \caption{Larmor歳差運動を用いたミュオンスピン検出実験の配置. 着色部で表す試料の上下を検出器で挟む. 水平に磁場をかけるとスピンが歳差運動し, 崩壊の際に放出される粒子の分布が上下で時々刻々と変化する. }
-    \label{fig: Larmor spin}
-\end{figure}
-
 図\ref{fig: Larmor spin}に示すように, 磁気回転比$\gamma$のミュオンに磁場$\bm{B}$がかかったとき,
 \begin{equation}
     \label{eq: Larmor precession}
@@ -207,11 +200,23 @@
 ここで$\gamma=2\pi\times\SI{135.5342}{\mega\hertz/\tesla}$である.
 したがって\ref{sec: theory: decay of muon}によれば, 放出(陽)電子の角度分布も磁場を軸に回転し, 粒子の検出数が崩壊時間によって変化する(図\ref{fig: theory: N under Larmor}).
 
-\begin{figure}
+\begin{figure}[b]
     \centering
-    \input{../img/models/exp-vib.tex}
-    \caption[]{Larmor歳差運動下で予想される粒子検出数. 破線は磁場をかけない場合. }
-    \label{fig: theory: N under Larmor}
+    \begin{tabular}{cc}
+        \begin{minipage}[t]{0.5\hsize}
+            \centering
+            \input{../img/models/LarmorSpin.tex}
+            \caption{Larmor歳差運動を用いたミュオンスピン検出装置の配置. 着色部で表す試料の上下を検出器で挟む. 水平に磁場をかけるとスピンが歳差運動し, 崩壊の際に放出される粒子の分布が上下で時々刻々と変化する. }
+            \label{fig: Larmor spin}
+        \end{minipage}
+        &
+        \begin{minipage}[t]{0.44\hsize}
+            \centering
+            \input{../img/models/exp-vib.tex}
+            \caption[]{Larmor歳差運動下で予想される粒子検出数の時間変化. 試料は比較的運動量の大きいミュオンを捕獲するものとし, 破線は磁場をかけない場合を表す. }
+            \label{fig: theory: N under Larmor}
+        \end{minipage}
+    \end{tabular}
 \end{figure}
 
 上下の検出器でのカウントをそれぞれ$N_U, N_D$とし, \eqref{eq: Larmor precession}の$\bm{\omega}$の大きさを$\omega$とすれば, \ref{sec: theory: negative muon capture}で述べた$\mu^-$の原子核捕獲も考慮して, 以下の式が成り立つと考えられる.
@@ -268,7 +273,7 @@
 PSc+PMTは上層から順にT,U,Dとし, 各層でシンチレーション光を別々に検出できるようにする.
 
 宇宙線及び崩壊粒子
-\footnote{$\mu^-$の原子核捕獲で生じる中性子も速度が〜となってPScの検出下限〜を上回るので, これには中性子も含む. }
+% \footnote{$\mu^-$の原子核捕獲で生じる中性子も速度が〜となってPScの検出下限〜を上回るので, これには中性子も含む. }
 % 文献ほしい. 崩壊中性子の速度とPSc内部の光速
 の飛程を考慮すると, 以下の事象が考えられる.
 \renewcommand{\theenumi}{(\alph{enumi})}
@@ -487,7 +492,7 @@ Cu, AlのTに描いたようなor接続をCu, AlのU以下全ての入力端子�
 具体的には, Cu, Al側のGGが起動している間は大理石の信号が入ってもstopと判定しない.
 逆もまた然りである.
 
-DAQ-PCでは短時間に複数のstart信号を受けたとき最初の信号のみを使用し, それ以降の信号は停止信号を得るか所定の時間($\SI{20}{\micro\second}$)無視する.
+DAQ-PCでは短時間に複数のstart信号を受けたとき最初の信号のみを使用し, それ以降の信号は停止信号を得ない限り所定の時間($\SI{20}{\micro\second}$)無視する.
 
 \begin{landscape}
     \begin{figure}
