@@ -75,7 +75,7 @@
 \end{align*}
 と崩壊する.
 
-ニュートリノのヘリシティは負のみ, 反ニュートリノは正のみであるから, 角運動量保存よりパイオン静止系にて$\mu^+$のスピンは運動量と同じであり, $\mu^-$は逆となる(図\ref{fig: pion decay}).
+ニュートリノのヘリシティは負のみ, 反ニュートリノは正のみであるから, 角運動量保存よりパイオン静止系にて$\mu^+$のスピンは運動量と逆向きであり, $\mu^-$は同じとなる(図\ref{fig: pion decay}).
 パイオンの崩壊は主に電磁シャワー内部で生じることを考慮すると, 図\ref{fig: muon shower}のように実験室系にて地表に降り注ぐ向きの運動量が大きい$\mu^+$はスピンが上向き, $\mu^-$はスピンが下向きになる割合が多くなると考えられる.
 % 定量的なことを言いたい
 
@@ -103,8 +103,8 @@
 
 宇宙線ミュオンは地表に降り注ぐ間は固有時間がほとんど進まないが,
 \footnote{
-    高度$\SI{15}{\km}$にて生成し地表での平均エネルギー$\SI{4}{\GeV}$で飛来する間のミュオンの固有時間は〜と概算される.
-    これに加えて空中で$\SI{2}{\GeV}$減衰することを考慮すると, 固有時間は寿命に比べて十分短い.
+    高度$\SI{15}{\km}$にて生成し地表に到達するときの平均エネルギー$\SI{4}{\GeV}$で飛来する間のミュオンの固有時間は数十$\si{\ns}$と概算される.
+    これに加えて地表に達する前に空中で$\SI{2}{\GeV}$減衰することを考慮すると,固有時間は寿命に比べて十分短い.
     数値は全て\cite{PDG}より.
 }
 資料にトラップされると平均寿命$\SI{2.2}{\micro\second}$で崩壊し電子または陽電子を放出する.
@@ -119,7 +119,7 @@
     \propto
     [3-2x\pm P_\mu\cos\theta(2x-1)]x^2
 \end{equation*}
-ただし$x=2E_e/\mu$で, $\theta$は電子の運動量とミュオンのスピンの間の角である.
+ただし$x=2E_e/m_\mu$で, $\theta$は(陽)電子の運動量とミュオンのスピンの間の角である.
 簡単な場合に図示すると図\ref{fig: muon decay distrib.}のようになる.
 すなわち, $\mu^+$はスピンと同じ向きに陽電子を, $\mu^-$はスピンと逆向きに電子を出しやすい.
 
@@ -130,7 +130,7 @@
     \label{fig: muon decay distrib.}
 \end{figure}
 
-\ref{sec: theory: generation of muon}を合わせて踏まえると, 地表に降り注ぐミュオンのうち運動量の大きいものは上向きに, 運動量の小さいものは下向きに(陽)電子を多く放出する.
+\ref{sec: theory: generation of muon}を踏まえると, 地表に降り注ぐミュオンのうち運動量の大きいものは上向きに, 運動量の小さいものは下向きに(陽)電子を多く放出する.
 
 
 \subsection{負ミュオンの原子核捕獲}
@@ -194,7 +194,7 @@
 \begin{figure}[b]
     \centering
     \input{../img/models/LarmorSpin.tex}
-    \caption{Larmor歳差運動を用いたミュオンスピン検出実験の配置. 着色部で表す試料の上下を検出器で挟む. 水平に磁場をかけるとスピンが歳差運動し, 崩壊の際に放出される粒子の分布が上下で時々刻々と変化する. }
+    \caption{Larmor歳差運動を用いたミュオンスピン検出実験の配置. 着色部で表す試料の上下を検出器で挟む.}
     \label{fig: Larmor spin}
 \end{figure}
 
@@ -204,7 +204,7 @@
     \bm{\omega}=\gamma\bm{B}
 \end{equation}
 でスピンは際差運動する.
-ここで$\gamma=2\pi\times\SI{135.5342}{\mega\hertz/\tesla}$である.
+ここで$\gamma=2\pi\times\SI{135.5342}{\mega\hertz/\tesla}$である\cite{Kadono Adachi Ono Inada Ito Oniyanagi Ootomo Hyodo}.
 したがって\ref{sec: theory: decay of muon}によれば, 放出(陽)電子の角度分布も磁場を軸に回転し, 粒子の検出数が崩壊時間によって変化する(図\ref{fig: theory: N under Larmor}).
 
 \begin{figure}
@@ -224,7 +224,7 @@
         +
         N_{U0}^-(1+P^-\cos\omega t)e^{-t/\tau_-}
         +
-        BG_D
+        BG_U
         \\
         N_D(t)
         &=
@@ -236,7 +236,7 @@
     \end{split}
 \end{equation}
 ここで$\tau_-$は原子核捕獲のため一般に小さく, $t\gg\tau_-$にて各式の第2項は無視できる.
-加えて$\mu^-$は試料に侵入すると周囲の電子との間で相互作用してスピン偏極が破れるので$N_{U0}^-,N_{D0}^-$は小さい.
+加えて$\mu^-$は試料に侵入すると周囲の電子との間で相互作用してスピン偏極が破れるので$P^-$は小さい.
 % 文献ほしい
 \eqref{eq: N under Larmor}各式の第2項を無視すれば, $N_U'=N_U-BG_U, N_D'=N_D-BG_D$及び実数$\alpha$を使って,
 \begin{equation}
@@ -268,7 +268,7 @@
 PSc+PMTは上層から順にT,U,Dとし, 各層でシンチレーション光を別々に検出できるようにする.
 
 宇宙線及び崩壊粒子
-\footnote{$\mu^-$の原子核捕獲で生じる中性子も速度が〜となってPScの検出下限〜を上回るので, これには中性子も含む. }
+% \footnote{$\mu^-$の原子核捕獲で生じる中性子も速度が〜となってPScの検出下限〜を上回るので, これには中性子も含む. }
 % 文献ほしい. 崩壊中性子の速度とPSc内部の光速
 の飛程を考慮すると, 以下の事象が考えられる.
 \renewcommand{\theenumi}{(\alph{enumi})}
@@ -363,12 +363,12 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
 \begin{figure}
     \centering
     \begin{tabular}{cc}
-        \begin{minipage}[t]{0.5\hsize}
+        \begin{minipage}[t]{0.47\hsize}
             \includegraphics[width=7.5cm]{../img/results/CuAl18h.pdf}
             \subcaption{Cu, Al}
         \end{minipage}
         &
-        \begin{minipage}[t]{0.5\hsize}
+        \begin{minipage}[t]{0.47\hsize}
             \includegraphics[width=7.5cm]{../img/results/CaCO3for51h.pdf}
             \subcaption{大理石}
         \end{minipage}
@@ -423,20 +423,20 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
 \begin{table}
     \centering
     \caption{\eqref{eq: method: rough fitting of spin polarization by exp}によってフィッティングしたときの変数値}
-    \begin{tabular}[]{lrr}
+    \begin{tabular}[]{ll}
         \toprule
-        $N_U^0$ & $4.63817e+02\:\pm8.72257e+00$
+        $N_U^0$ & $4.63817\times10^2\:\pm8.72257\times10^0$
         \\
-        $\tau_U$ & $2.07050e+03\:\pm3.18642e+01$
+        $\tau_U$ & $2.07050\times10^3\:\pm3.18642\times10^1$
         \\
-        $BG_U$ & $6.39559e+00\:\pm2.74083e-01$
+        $BG_U$ & $6.39559\times10^0\:\pm2.74083\times10^{-1}$
         \\
         \midrule
-        $N_D^0$ & $2.14776e+02\:\pm6.68531e+00$
+        $N_D^0$ & $2.14776\times10^2\:\pm6.68531\times10^0$
         \\
-        $\tau_D$ & $2.00158e+03\:\pm5.62010e+01$
+        $\tau_D$ & $2.00158\times10^3\:\pm5.62010\times10^1$
         \\
-        $BG_D$ & $8.27831e+00\:\pm2.91137e-01$
+        $BG_D$ & $8.27831\times10^0\:\pm2.91137\times10^{-1}$
         \\
         \bottomrule
     \end{tabular}
@@ -444,7 +444,7 @@ $N_U+N_D$の分布は\eqref{eq: N of t considering different tau and BG}に従�
 \end{table}
 
 次いで$\alpha$を$0\leq\alpha\leq5$で$0.01$ずつ変えて非対称度\eqref{eq: method: fit asymmetry}を計算し, $A\cos(2\pi ft)$にフィッティングさせたときの$\chi^2$値を図\ref{fig: result: alpha and chi square}に示す.
-極値は$(\alpha,\chi^2)=(2.23, 0.85)$であり, 上側累積確率は$74.7\%$である.
+極値は$(\alpha,\chi^2)=(2.23, 0.85)$であり, $\chi^2$値の上側累積確率は$74.7\%$である.
 そこで$\alpha=2.23$を採用して\eqref{eq: method: fit asymmetry}を描き$\cos$でフィッティングすると図\ref{fig: result: asymmetry}の通りになる.
 
 \begin{figure}
@@ -743,5 +743,6 @@ DAQ-PCでは短時間に複数のstart信号を受けたとき最初の信号の
     % \bibitem{Sakai} 坂井典佑「物理学基礎シリーズ10 素粒子物理学」培風館(1996)
     % \bibitem{KEK} 門野良典, 足立伸一, 小野寛太, 稲田康宏, 伊藤晋一, 鬼柳善明, 大友季哉, 兵頭俊夫「KEK物理学シリーズ第6巻 量子ビーム物質科学」共立出版(2013)
     \bibitem{Ito Kaji Tabata Yoshiwara} 伊藤泰男,鍛冶東海,田畑米穂,吉原賢二,「素粒子の化学」学会出版センター(1985)
+    \bibitem{Kadono Adachi Ono Inada Ito Oniyanagi Ootomo Hyodo} 門野良典,足立伸一,小野寛太,稲田康宏,伊藤晋一,鬼柳善明,大友季哉,兵頭俊夫「KEK物理学シリーズ第6巻 量子ビーム物質科学」共立出版(2013)
 \end{thebibliography}
 \end{document}
